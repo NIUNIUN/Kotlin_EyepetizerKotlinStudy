@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion  rootProject.ext.buildToolsVersion
+    defaultConfig {
+        applicationId "com.qinglianyun.eyepetizerkotlinstudy"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner..AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':base')
+    /**
+     * 当前库
+     * implementation：只能在当前module使用，不能被依赖当前module的module使用
+     * api：当前module可以使用，依赖当前module的module可以使用
+     *
+     * implementation和api是用来作用整个依赖库，而不是指依赖的库里面的依赖库。
+     */
+}

@@ -1,0 +1,66 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    def dependencie = rootProject.ext.dependencies
+
+    api dependencie.kotlinJdk
+
+    api dependencie.appcompat
+    api dependencie.constraintLayout
+
+    testImplementation dependencie.junit
+    androidTestImplementation dependencie.testRunner
+    androidTestImplementation dependencie.espressoCore
+
+    api dependencie.okhttp3
+    api dependencie.okhttp3LoggingInterceptor
+    api dependencie.gson
+    api dependencie.retrofit2
+    api dependencie.retrofit2Gson
+    api dependencie.retrofit2Rxjava2
+
+    api dependencie.rxAndroid
+    api dependencie.rxKotlin
+
+    api dependencie.glide
+
+    api dependencie.anko
+    // Anko Commons 通用库
+    api dependencie.anko_commons
+    api dependencie.anko_appcompat_v7
+    api dependencie.anko_support_v4
+    api dependencie.anko_design
+    api dependencie.anko_recyclerview_v7
+
+    // Anko SQLite   简化SQL数据库的使用
+    api dependencie.anko_sqlite
+
+    api dependencie.BaseRecyclerViewAdapterHelper
+}

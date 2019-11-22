@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/comm_dp_50"
+        android:background="@color/comm_color_gray_5aE1E2DE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            tools:text="标题" />
+
+        <ImageView
+            android:layout_width="@dimen/comm_dp_20"
+            android:layout_height="@dimen/comm_dp_20"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/comm_dp_20"
+            android:src="@drawable/ic_search_black_24dp" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_main"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/comm_dp_0"
+        app:layout_constraintBottom_toTopOf="@id/line_main"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rl_main_toolbar" />
+
+    <include
+        android:id="@+id/line_main"
+        layout="@layout/line_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/comm_dp_0_5"
+        app:layout_constraintBottom_toTopOf="@id/bnv_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bnv_main"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/comm_dp_50"
+        app:itemIconTint="@color/color_bnv_item"
+        app:itemTextColor="@color/color_bnv_item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/menu_item_main" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,65 @@
+ext {
+    compileSdkVersion = 28
+    buildToolsVersion = "28.0.3"
+    minSdkVersion = 23
+    targetSdkVersion = 28
+
+    appcompatVersion = "28.0.0"
+    constraintLayoutVersion = "1.1.3"
+
+    kotlinVersion = "1.3.50"
+
+    junitVersion = "4.12"
+    testRunnerVersion = "1.0.2"
+    espressoCoreVersion = "3.0.2"
+
+    okhttp3Version = "3.4.2"
+
+    gsonVersion = "2.7"
+
+    retrofit2Version = "2.3.0"
+
+    rxandroidVersion = "2.0.1"
+    rxkotlinVersion = "2.0.2"
+
+    glideVersion = "3.7.0"
+
+    BRVAHVersion = "2.9.30"
+
+    ankoVersion = "0.10.8"
+
+    dependencies = [
+            junit                        : "junit:junit:$junitVersion",
+            testRunner                   : "com.android.support.test:runner:$testRunnerVersion",
+            espressoCore                 : "com.android.support.test.espresso:espresso-core:$espressoCoreVersion",
+
+            appcompat                    : "com.android.support:appcompat-v7:$appcompatVersion",
+
+            kotlinJdk                    : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+            constraintLayout             : "com.android.support.constraint:constraint-layout:$constraintLayoutVersion",
+
+            okhttp3                      : "com.squareup.okhttp3:okhttp:$okhttp3Version",
+            okhttp3LoggingInterceptor    : "com.squareup.okhttp3:logging-interceptor:$okhttp3Version",
+
+            gson                         : "com.google.code.gson:gson:$gsonVersion",
+
+            retrofit2                    : "com.squareup.retrofit2:retrofit:$retrofit2Version",
+            retrofit2Gson                : "com.squareup.retrofit2:converter-gson:$retrofit2Version",
+            retrofit2Rxjava2             : "com.squareup.retrofit2:adapter-rxjava2:$retrofit2Version",
+
+            rxAndroid                    : "io.reactivex.rxjava2:rxandroid:$rxandroidVersion",
+            rxKotlin                     : "io.reactivex.rxjava2:rxkotlin:$rxkotlinVersion",
+
+            glide                        : "com.github.bumptech.glide:glide:$glideVersion",
+
+            BaseRecyclerViewAdapterHelper: "com.github.CymChad:BaseRecyclerViewAdapterHelper:$BRVAHVersion",
+
+            anko                         : "org.jetbrains.anko:anko:$ankoVersion",
+            anko_commons                 : "org.jetbrains.anko:anko-commons:$ankoVersion",
+            anko_appcompat_v7            : "org.jetbrains.anko:anko-appcompat-v7:$ankoVersion",
+            anko_support_v4              : "org.jetbrains.anko:anko-support-v4:$ankoVersion",
+            anko_design                  : "org.jetbrains.anko:anko-design:$ankoVersion",
+            anko_recyclerview_v7         : "org.jetbrains.anko:anko-recyclerview-v7:$ankoVersion",
+            anko_sqlite                  : "org.jetbrains.anko:anko-sqlite:$ankoVersion"
+    ]
+}
