@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/comm_dp_8">
+
+    <ImageView
+        android:id="@+id/item_iv_img"
+        android:layout_width="@dimen/comm_dp_50"
+        android:layout_height="@dimen/comm_dp_50"
+        android:layout_marginRight="@dimen/comm_dp_8"
+        android:layout_marginBottom="@dimen/comm_dp_20"
+        android:background="@color/comm_color_gray"
+        app:layout_constraintBottom_toTopOf="@id/item_rv_data"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="@dimen/comm_dp_0"
+        android:layout_height="@dimen/comm_dp_50"
+        android:layout_marginHorizontal="@dimen/comm_dp_8"
+        android:layout_marginBottom="@dimen/comm_dp_20"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/item_rv_data"
+        app:layout_constraintEnd_toStartOf="@id/item_tv_focus"
+        app:layout_constraintStart_toEndOf="@id/item_iv_img"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/item_tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="@dimen/comm_sp_16"
+            android:textStyle="bold"
+            tools:text="梦幻" />
+
+        <TextView
+            android:id="@+id/item_tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="@dimen/comm_sp_14"
+            tools:text="2019 11/22" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/item_tv_focus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/comm_dp_8"
+        android:layout_marginBottom="@dimen/comm_dp_20"
+        android:background="@drawable/tv_shape_corners5_black"
+        android:gravity="center"
+        android:padding="@dimen/comm_dp_5"
+        app:layout_constraintBottom_toTopOf="@id/item_rv_data"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="关注" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/item_rv_data"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/comm_dp_180"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_iv_img"
+        tools:listitem="@layout/item_home_layout"
+        />
+</android.support.constraint.ConstraintLayout>

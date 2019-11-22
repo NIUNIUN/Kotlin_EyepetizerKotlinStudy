@@ -31,9 +31,6 @@ class HotFragment : BaseFragment<IMainView, MainPresenter>(), IMainView {
         mTabLayout = mActivity.findViewById(R.id.tl_hot)
         mVpList = mActivity.findViewById(R.id.vp_hot_list)
 
-        for (s in talTitle) {
-            mTabLayout.addTab(mTabLayout.newTab().setText(s))
-        }
         mTabLayout.setupWithViewPager(mVpList)
 
         mDataList.add(HotWeekFragment.getInstance())
@@ -41,7 +38,7 @@ class HotFragment : BaseFragment<IMainView, MainPresenter>(), IMainView {
         mDataList.add(HotTotalFragment.getInstance())
 
         mPagerAdater = HotPagerAdater(childFragmentManager)
-        mPagerAdater.setDataList(mDataList)
+        mPagerAdater.setDataList(mDataList, talTitle)
         mVpList.adapter = mPagerAdater
     }
 

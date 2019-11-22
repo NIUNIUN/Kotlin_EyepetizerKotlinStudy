@@ -10,18 +10,20 @@
         android:id="@+id/rl_main_toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/comm_dp_50"
-        android:background="@color/comm_color_gray_5aE1E2DE"
+        android:background="@color/comm_color_white_6FFFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/tv_main_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             tools:text="标题" />
 
         <ImageView
+            android:id="@+id/iv_main_search"
             android:layout_width="@dimen/comm_dp_20"
             android:layout_height="@dimen/comm_dp_20"
             android:layout_alignParentRight="true"
@@ -49,6 +51,7 @@
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bnv_main"
+        android:background="@color/comm_color_white_6FFFFFFF"
         android:layout_width="match_parent"
         android:layout_height="@dimen/comm_dp_50"
         app:itemIconTint="@color/color_bnv_item"

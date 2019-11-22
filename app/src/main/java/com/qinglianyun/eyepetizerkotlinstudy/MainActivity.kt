@@ -2,7 +2,8 @@ package com.qinglianyun.eyepetizerkotlinstudy
 
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
-import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import com.qinglianyun.base.utils.BottomNavigationViewUtils
 import com.qinglianyun.base.view.BaseActivity
 import com.qinglianyun.eyepetizerkotlinstudy.presenter.MainPresenter
@@ -14,8 +15,12 @@ import com.qinglianyun.eyepetizerkotlinstudy.view.i.IMainView
 
 class MainActivity : BaseActivity<IMainView, MainPresenter>(), IMainView {
     private lateinit var mBnvMain: BottomNavigationView
+    private lateinit var mTvTitle: TextView
+    private lateinit var mIvSearch: ImageView
+
     private lateinit var mFragmentList: ArrayList<Fragment>
     private var selectPosition: Int = -1;
+    private var mFragmentTitle: Array<String> = arrayOf("首页", "发现", "热门", "我的")
 
     override fun getLayoutView(): Int {
         return R.layout.activity_main
@@ -27,6 +32,8 @@ class MainActivity : BaseActivity<IMainView, MainPresenter>(), IMainView {
 
     override fun initViews() {
         mBnvMain = findViewById(R.id.bnv_main)
+        mTvTitle = findViewById(R.id.tv_main_title)
+        mIvSearch = findViewById(R.id.iv_main_search)
         BottomNavigationViewUtils.disableShiftMode(mBnvMain)
     }
 
@@ -34,6 +41,10 @@ class MainActivity : BaseActivity<IMainView, MainPresenter>(), IMainView {
         mBnvMain.setOnNavigationItemSelectedListener { item ->
             itemSelectById(item.itemId)
             true
+        }
+
+        mIvSearch.setOnClickListener {
+            // 跳转到搜索页面
         }
     }
 
@@ -55,6 +66,11 @@ class MainActivity : BaseActivity<IMainView, MainPresenter>(), IMainView {
             .hide(mFragmentList.get(2))
             .hide(mFragmentList.get(3)).commit()
         selectPosition = 0
+        setToolbarTitle()
+    }
+
+    private fun setToolbarTitle() {
+        mTvTitle.setText(mFragmentTitle.get(selectPosition))
     }
 
     private fun itemSelectById(viewId: Int) {
@@ -92,5 +108,6 @@ class MainActivity : BaseActivity<IMainView, MainPresenter>(), IMainView {
                 selectPosition = 3
             }
         }
+        setToolbarTitle()
     }
 }

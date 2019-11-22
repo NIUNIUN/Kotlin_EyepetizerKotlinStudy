@@ -1,56 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/comm_dp_8"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-<ImageView
-    android:id="@+id/item_iv_bgimg"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/comm_dp_200"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    />
+    android:paddingBottom="@dimen/comm_dp_8">
+
+    <ImageView
+        android:id="@+id/item_iv_bgimg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/comm_dp_200"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/item_iv_img"
         android:layout_width="@dimen/comm_dp_50"
         android:layout_height="@dimen/comm_dp_50"
-        android:background="@color/comm_color_gray"
-        app:layout_constraintTop_toBottomOf="@id/item_iv_bgimg"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginVertical="@dimen/comm_dp_8"
         android:layout_marginHorizontal="@dimen/comm_dp_8"
-        />
+        android:layout_marginVertical="@dimen/comm_dp_8"
+        android:background="@color/comm_color_gray"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_iv_bgimg" />
+
     <LinearLayout
         android:layout_width="@dimen/comm_dp_0"
         android:layout_height="@dimen/comm_dp_50"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
+        android:layout_marginHorizontal="@dimen/comm_dp_8"
         android:layout_marginVertical="@dimen/comm_dp_8"
-        app:layout_constraintTop_toBottomOf="@id/item_iv_bgimg"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/item_iv_img"
-        android:layout_marginHorizontal="@dimen/comm_dp_8"
-        >
-    <TextView
-        android:id="@+id/item_tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="@dimen/comm_sp_16"
-        tools:text="梦幻"
-        />
+        app:layout_constraintTop_toBottomOf="@id/item_iv_bgimg">
 
-    <TextView
-        android:id="@+id/item_tv_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/comm_sp_14"
-        tools:text="2019 11/22"
-        />
+        <TextView
+            android:id="@+id/item_tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/comm_sp_16"
+            android:textStyle="bold"
+            android:singleLine="true"
+            tools:text="梦幻" />
+
+        <TextView
+            android:id="@+id/item_tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/comm_sp_14"
+            android:textColor="@color/comm_color_second"
+            tools:text="2019 11/22" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

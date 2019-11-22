@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tabIndicatorColor="@color/comm_color_black"
         app:tabSelectedTextColor="@color/comm_color_black"
-        app:tabTextColor="@color/comm_color_gray" />
+        app:tabTextColor="@color/comm_color_second" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_hot_list"
