@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_tv_search"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/comm_dp_5"
+    android:background="@drawable/shape_corner5_grey"
+    android:padding="@dimen/comm_dp_5"
+    android:gravity="center"
+    android:textColor="@color/comm_color_white"
+    android:textSize="@dimen/comm_sp_14"
+    tools:text="生活">
+
+</TextView>

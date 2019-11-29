@@ -5,7 +5,6 @@ package com.qinglianyun.base.view
  */
 open class BasePresenter<T : IBaseView>(val view: T) : IBasePresenter {
     var baseView: T? = null
-
     init {
         baseView = view
     }
@@ -37,14 +36,14 @@ open class BasePresenter<T : IBaseView>(val view: T) : IBasePresenter {
     }
 
     override fun sendMessage(what: Int, obj: Any) {
-        baseView?.sendMessage(what, obj)?:return
+        baseView?.sendMessage(what, obj) ?: return
     }
 
     override fun sendMessage(what: Int, obj: Any, arg1: Int, arg2: Int) {
-        baseView?.sendMessage(what, obj, arg1, arg2)?:return
+        baseView?.sendMessage(what, obj, arg1, arg2) ?: return
     }
 
     override fun sendMessage(what: Int, obj: Any, delayTime: Long) {
-        baseView?.sendMessage(what, obj, delayTime)?:return
+        baseView?.sendMessage(what, obj, delayTime) ?: return
     }
 }

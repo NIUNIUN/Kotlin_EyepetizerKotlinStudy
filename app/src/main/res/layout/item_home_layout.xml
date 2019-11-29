@@ -7,7 +7,7 @@
     android:paddingBottom="@dimen/comm_dp_8">
 
     <ImageView
-        android:id="@+id/item_iv_bgimg"
+        android:id="@+id/item_iv_photo"
         android:layout_width="match_parent"
         android:layout_height="@dimen/comm_dp_200"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,10 +20,10 @@
         android:layout_height="@dimen/comm_dp_50"
         android:layout_marginHorizontal="@dimen/comm_dp_8"
         android:layout_marginVertical="@dimen/comm_dp_8"
-        android:background="@color/comm_color_gray"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/item_iv_bgimg" />
+        app:layout_constraintTop_toBottomOf="@id/item_iv_photo"
+        tools:background="@color/comm_color_gray" />
 
     <LinearLayout
         android:layout_width="@dimen/comm_dp_0"
@@ -34,23 +34,23 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/item_iv_img"
-        app:layout_constraintTop_toBottomOf="@id/item_iv_bgimg">
+        app:layout_constraintTop_toBottomOf="@id/item_iv_photo">
 
         <TextView
             android:id="@+id/item_tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textSize="@dimen/comm_sp_16"
             android:textStyle="bold"
-            android:singleLine="true"
             tools:text="梦幻" />
 
         <TextView
             android:id="@+id/item_tv_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/comm_sp_14"
             android:textColor="@color/comm_color_second"
+            android:textSize="@dimen/comm_sp_14"
             tools:text="2019 11/22" />
     </LinearLayout>
 

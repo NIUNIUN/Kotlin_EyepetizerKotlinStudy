@@ -14,11 +14,28 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner..AndroidJUnitRunner"
+
+        ndk {
+
+            //APP的build.gradle设置支持的SO库架构
+            abiFilters 'armeabi', 'armeabi-v7a', 'x86'
+        }
+
     }
     buildTypes {
         release {
             minifyEnabled false
+            multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            multiDexEnabled true
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
         }
     }
 }
@@ -33,4 +50,19 @@ dependencies {
      *
      * implementation和api是用来作用整个依赖库，而不是指依赖的库里面的依赖库。
      */
+
+    // 视频播放器
+//    implementation 'com.shuyu:GSYVideoPlayer:6.0.3'
+//    implementation 'com.shuyu:gsyVideoPlayer-kotlin:6.0.3'
+    implementation 'com.shuyu:gsyVideoPlayer-java:6.0.3'
+
+    implementation 'com.android.support:multidex:1.0.3'
+
+    //根据你的需求ijk模式的so
+    implementation 'com.shuyu:gsyVideoPlayer-armv7a:6.0.3'
+//    implementation 'com.shuyu:gsyVideoPlayer-arm64:6.0.3'
+//    implementation 'com.shuyu:gsyVideoPlayer-x64:6.0.3'  //（可丢弃，调试可以留着，正是打包去除）
+//    implementation 'com.shuyu:gsyVideoPlayer-x86:6.0.3' //（可丢弃）
+
+
 }

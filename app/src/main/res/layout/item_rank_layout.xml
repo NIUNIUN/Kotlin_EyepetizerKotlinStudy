@@ -3,16 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/comm_dp_8">
+    android:layout_height="@dimen/comm_dp_250">
 
-    <ImageView
-        android:id="@+id/item_iv_bgimg"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/comm_dp_250"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/item_iv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/comm_color_black_80" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/item_tv_title"

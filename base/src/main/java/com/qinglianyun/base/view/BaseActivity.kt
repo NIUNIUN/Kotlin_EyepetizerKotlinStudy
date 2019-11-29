@@ -8,8 +8,11 @@ import android.support.v7.app.AppCompatActivity
  * Created by tang_xqing on 2019/11/12.
  */
 abstract class BaseActivity<I : IBaseView, T : BasePresenter<I>> : AppCompatActivity(), IBaseView {
+    val mActivity: AppCompatActivity by lazy {
+        this
+    }
 
-    lateinit var mPresenter: BasePresenter<I>
+    lateinit var mPresenter: T
 
     val mHandler: MainHandler = MainHandler(this)
 

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/comm_dp_10">
+
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/comm_dp_30"
+        android:layout_marginLeft="@dimen/comm_dp_20"
+        android:layout_marginTop="@dimen/comm_dp_10"
+        android:layout_marginRight="@dimen/comm_dp_20"
+        android:background="@drawable/shape_corner8_grey"
+        android:drawableLeft="@mipmap/ic_action_search_small"
+        android:gravity="center_vertical"
+        android:hint="帮你找到感兴趣的视频"
+        android:padding="@dimen/comm_dp_8"
+        android:textSize="@dimen/comm_sp_12"
+        app:layout_constraintEnd_toStartOf="@+id/tv_search_cancel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_search_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/comm_dp_30"
+        android:layout_marginTop="@dimen/comm_dp_10"
+        android:layout_marginRight="@dimen/comm_dp_20"
+        android:gravity="center_vertical"
+        android:text="取消"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_search_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/comm_dp_30"
+        android:layout_marginTop="@dimen/comm_dp_10"
+        android:layout_marginRight="@dimen/comm_dp_20"
+        android:gravity="center_vertical"
+        android:text="输入标题或描述中的关键词找到更多视频"
+        android:textColor="@color/comm_color_second"
+        android:textSize="@dimen/comm_sp_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_search" />
+
+    <TextView
+        android:id="@+id/tv_hot_search"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/comm_dp_30"
+        android:layout_marginTop="@dimen/comm_dp_20"
+        android:layout_marginRight="@dimen/comm_dp_20"
+        android:gravity="center_vertical"
+        android:text="- 热门搜索 -"
+        android:textColor="@color/comm_color_black"
+        android:textSize="@dimen/comm_sp_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_search_hint" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_hot_key_search"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/comm_dp_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_hot_search"
+        tools:listitem="@layout/item_hot_search_layout" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_hot_search_result"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/comm_dp_10"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_hot_search"
+        tools:listitem="@layout/item_rank_layout" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_search"
+        android:layout_width="@dimen/comm_dp_40"
+        android:layout_height="@dimen/comm_dp_40"
+        android:transitionName="transitionName"
+        app:backgroundTint="@color/comm_color_gray_5aE1E2DE"
+        app:elevation="@dimen/comm_dp_0"
+        app:fabSize="auto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

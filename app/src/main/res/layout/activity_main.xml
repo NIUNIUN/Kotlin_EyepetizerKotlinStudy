@@ -29,7 +29,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/comm_dp_20"
-            android:src="@drawable/ic_search_black_24dp" />
+            android:src="@drawable/ic_search_black_24dp"
+            android:transitionName="transitionName" />
     </RelativeLayout>
 
     <FrameLayout
@@ -51,9 +52,9 @@
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bnv_main"
-        android:background="@color/comm_color_white_6FFFFFFF"
         android:layout_width="match_parent"
         android:layout_height="@dimen/comm_dp_50"
+        android:background="@color/comm_color_white_6FFFFFFF"
         app:itemIconTint="@color/color_bnv_item"
         app:itemTextColor="@color/color_bnv_item"
         app:layout_constraintBottom_toBottomOf="parent"

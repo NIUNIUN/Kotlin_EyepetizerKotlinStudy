@@ -2,15 +2,15 @@ package com.qinglianyun.eyepetizerkotlinstudy
 
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
+import android.transition.Explode
+import android.transition.Fade
+import android.transition.Slide
 import android.widget.ImageView
 import android.widget.TextView
 import com.qinglianyun.base.utils.BottomNavigationViewUtils
 import com.qinglianyun.base.view.BaseActivity
 import com.qinglianyun.eyepetizerkotlinstudy.presenter.MainPresenter
-import com.qinglianyun.eyepetizerkotlinstudy.view.FoundFragment
-import com.qinglianyun.eyepetizerkotlinstudy.view.HomeFragment
-import com.qinglianyun.eyepetizerkotlinstudy.view.HotFragment
-import com.qinglianyun.eyepetizerkotlinstudy.view.PersonalFragment
+import com.qinglianyun.eyepetizerkotlinstudy.view.*
 import com.qinglianyun.eyepetizerkotlinstudy.view.i.IMainView
 
 class MainActivity : BaseActivity<IMainView, MainPresenter>(), IMainView {
@@ -45,6 +45,8 @@ class MainActivity : BaseActivity<IMainView, MainPresenter>(), IMainView {
 
         mIvSearch.setOnClickListener {
             // 跳转到搜索页面
+            SearchActivity.startAction(this, mIvSearch)
+//            SearchActivity.startAction(this)
         }
     }
 

@@ -63,4 +63,7 @@ dependencies {
     api dependencie.anko_sqlite
 
     api dependencie.BaseRecyclerViewAdapterHelper
+
+    // 流式布局
+    api 'com.google.android:flexbox:1.0.0'
 }

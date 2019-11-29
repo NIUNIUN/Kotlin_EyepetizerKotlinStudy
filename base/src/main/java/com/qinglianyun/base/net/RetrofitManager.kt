@@ -5,12 +5,13 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
 
 /**
  * Created by tang_xqing on 2019/11/12.
  */
-class RetrofitManager(val baseUrl:String) {
+class RetrofitManager(val baseUrl: String) {
     private var retrofit: Retrofit
 
     init {
@@ -31,9 +32,26 @@ class RetrofitManager(val baseUrl:String) {
     }
 
     companion object {
-        lateinit var retrofit:Retrofit
-        fun getInstance( baseUrl: String):Retrofit{
-            return RetrofitManager(baseUrl).retrofit
+        @Volatile
+        var manager: RetrofitManager? = null
+
+        fun getInstance(baseUrl: String): RetrofitManager {
+            if (null == manager) {
+                synchronized(RetrofitManager::class.java) {
+                    if (null == manager) {
+                        manager = RetrofitManager(baseUrl)
+                    }
+                }
+            }
+            return manager!!
         }
+    }
+
+    fun <T> create(server: Class<T>): T {
+        if (null == server) {
+            throw RuntimeException("ApiServer is NULL")
+        }
+
+        return retrofit.create(server)
     }
 }

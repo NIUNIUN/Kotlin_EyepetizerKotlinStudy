@@ -7,9 +7,13 @@
     <color name="comm_color_main">#FFB8CE2F</color>
     <color name="comm_color_main_A0B61D">#A0B61D</color>
     <color name="comm_color_second">#A4A696</color>
+    <color name="comm_color_gray_AAAAA8">#80AAAAA8</color>
     <color name="comm_color_gray">#E1E2DE</color>
     <color name="comm_color_gray_5aE1E2DE">#5aE1E2DE</color>
     <color name="comm_color_white">#ffffff</color>
     <color name="comm_color_white_6FFFFFFF">#6FFFFFFF</color>
     <color name="comm_color_black">#000000</color>
+    <color name="comm_color_black_80">#80000000</color>
+
+
 </resources>
