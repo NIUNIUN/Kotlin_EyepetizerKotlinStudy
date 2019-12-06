@@ -1,12 +1,19 @@
 package com.qinglianyun.eyepetizerkotlinstudy.model
 
-import com.qinglianyun.base.net.BaseCallback
-import com.qinglianyun.base.net.ICallback
+import com.qinglianyun.base.comm.CommError
+import com.qinglianyun.base.net.*
 import com.qinglianyun.eyepetizerkotlinstudy.bean.TabInfoBean
+import com.qinglianyun.eyepetizerkotlinstudy.net.ApiService
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.FindBean
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HomeBean
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HotBean
-import retrofit2.CallAdapter
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileOutputStream
 
 /**
  * Created by tang_xqing on 2019/11/26.
@@ -31,7 +38,7 @@ class FoundModel : BaseModel() {
             .enqueue(BaseCallback(callListener))
     }
 
-    fun getCategoryDetailList(id: Long, callListener: ICallback<HomeBean>) {
+    fun getCategoryDetailList(id: Long, callListener: ICallback<HomeBean.IssueListBean>) {
         mApiString.getCategoryDetailList(id)
             .enqueue(BaseCallback(callListener))
 
@@ -66,4 +73,55 @@ class SearchModel : BaseModel() {
         mApiString.getHotWord()
             .enqueue(BaseCallback(callListener))
     }
+}
+
+class DownloadModel : BaseModel() {
+    fun downloadFile(url: String, file: File, downloadListener: DownloadListener) {
+        mApiString.downloadFile(url).enqueue(BaseDownloadCall(file, downloadListener))
+    }
+
+    fun downloadFile1(url: String, file: File, downloadListener: DownloadListener) {
+        downloadListener.onStart()
+        var retrofitManager = RetrofitManager.getInstance(ApiService.BASE_URL)
+        retrofitManager
+            .setListener(object : RetrofitManager.ProgressListener {
+                override fun onProgress(progress: Long, totalLen: Long, finish: Boolean) {
+                    if (!finish) {
+                        downloadListener.onProgress(progress, totalLen)
+                    }
+                }
+            })
+        retrofitManager.create(ApiService::class.java)
+            .downloadFile(url).enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    downloadListener.onError(
+                        CommError.DOWNLOAD_ERR_CODE,
+                        CommError.DOWNLOAD_ERR_MSG
+                    )
+                }
+
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (!file.exists()) {
+                        file.createNewFile()
+                    }
+                    var inputStream = response.body()?.byteStream()
+                    inputStream?.let {
+                        var stream = BufferedOutputStream(FileOutputStream(file))
+                        var b = ByteArray(1024)
+                        var len = it.read(b)
+                        while (len != -1) {
+                            stream.write(b, 0, len)
+                            stream.flush()
+                        }
+                        stream.close()
+                        it.close()
+                        downloadListener.onFinish(file.absolutePath)
+                    }
+                }
+            })
+    }
+
 }

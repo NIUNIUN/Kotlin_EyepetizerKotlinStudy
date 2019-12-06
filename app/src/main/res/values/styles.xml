@@ -6,7 +6,13 @@
         <item name="colorPrimary">@color/comm_color_main</item>
         <item name="colorPrimaryDark">@color/comm_color_main_A0B61D</item>
         <item name="colorAccent">@color/comm_color_main_A0B61D</item>
+        <item name="android:fontFamily">@font/font_fzlanting</item>
     </style>
 
+
+    <!--  自定义字体格式  可以通过改变Theme的fontFamily属性来改变全局的字体格式 -->
+    <style name="customfontstyle" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/font_fzlanting</item>
+    </style>
 
 </resources>

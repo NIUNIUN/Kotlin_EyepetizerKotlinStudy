@@ -9,6 +9,10 @@ import android.widget.TextView
 object TextUtils {
     val STR_DEFAULT: String = "--"
 
+    fun isEmpty(str: String?): Boolean {
+        return TextUtils.isEmpty(str)
+    }
+
     fun setText(tv: TextView, str: String) {
         setText(tv, str, STR_DEFAULT)
     }
@@ -21,6 +25,15 @@ object TextUtils {
                 tv.setText(str)
             }
         }
+    }
+
+    /**
+     * 为控件设置默认值
+     */
+    fun setDefaultForTextView(default: String?, vararg tv: TextView) {
+        var defaultValue = if (isEmpty(default)) STR_DEFAULT else default
+        tv.filter { null != it }
+            .forEach { it.setText(defaultValue) }
     }
 
 }

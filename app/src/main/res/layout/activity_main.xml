@@ -54,7 +54,7 @@
         android:id="@+id/bnv_main"
         android:layout_width="match_parent"
         android:layout_height="@dimen/comm_dp_50"
-        android:background="@color/comm_color_white_6FFFFFFF"
+        android:background="?android:attr/windowBackground"
         app:itemIconTint="@color/color_bnv_item"
         app:itemTextColor="@color/color_bnv_item"
         app:layout_constraintBottom_toBottomOf="parent"

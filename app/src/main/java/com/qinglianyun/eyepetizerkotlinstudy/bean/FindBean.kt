@@ -3,7 +3,7 @@ package com.tt.lvruheng.eyepetizer.mvp.model.bean
 import android.os.Parcel
 import android.os.Parcelable
 
-data class FindBean(var id: Int, var name: String?, var alias: Any?,
+data class FindBean(var id: Int, var name: String?,
                     var description: String?, var bgPicture: String?,
                     var bgColor: String?, var headerImage: String?) :Parcelable{
     /**
@@ -18,7 +18,6 @@ data class FindBean(var id: Int, var name: String?, var alias: Any?,
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString(),
-        TODO("alias"),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),

@@ -8,10 +8,13 @@ import retrofit2.Response
 /**
  * Created by tang_xqing on 2019/11/26.
  */
- class BaseCallback<T>(callback: ICallback<T>) : Callback<T> {
+class BaseCallback<T>(callback: ICallback<T>) : Callback<T> {
     var mCallback: ICallback<T>
 
     init {
+        if (null == callback) {
+            throw NullPointerException("callback is NULL")
+        }
         mCallback = callback
     }
 

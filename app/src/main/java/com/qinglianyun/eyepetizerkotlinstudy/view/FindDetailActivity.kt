@@ -1,13 +1,16 @@
 package com.qinglianyun.eyepetizerkotlinstudy.view
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Parcelable
+import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toolbar
 import com.qinglianyun.base.adapter.BaseClickAdapter
 import com.qinglianyun.base.utils.RecyclerViewUtils
 import com.qinglianyun.base.utils.TextUtils
@@ -15,6 +18,7 @@ import com.qinglianyun.base.view.BaseActivity
 import com.qinglianyun.eyepetizerkotlinstudy.R
 import com.qinglianyun.eyepetizerkotlinstudy.adapter.HomeAdapter
 import com.qinglianyun.eyepetizerkotlinstudy.presenter.FindDetailPresenter
+import com.qinglianyun.eyepetizerkotlinstudy.utils.GlideUtils
 import com.qinglianyun.eyepetizerkotlinstudy.view.i.IFindDetailView
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.FindBean
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HomeBean
@@ -28,6 +32,8 @@ class FindDetailActivity : BaseActivity<IFindDetailView, FindDetailPresenter>(),
     private lateinit var mRvData: RecyclerView
     private lateinit var mTvDesc: TextView
     private lateinit var mToolbar: Toolbar
+    private lateinit var mCToolbar: CollapsingToolbarLayout
+    private lateinit var mIvHeaderBg: ImageView
 
     private lateinit var mAdapter: HomeAdapter
     private var mDataList: MutableList<HomeBean.IssueListBean.ItemListBean> = mutableListOf()
@@ -46,19 +52,30 @@ class FindDetailActivity : BaseActivity<IFindDetailView, FindDetailPresenter>(),
         mRvData = findViewById(R.id.rv_find_detail)
         mTvDesc = findViewById(R.id.tv_find_detail_desc)
         mToolbar = findViewById(R.id.toolbar_find_detail)
+        mCToolbar = findViewById(R.id.ctool_find_detail)
+        mIvHeaderBg = findViewById(R.id.iv_head_bg)
 
-        mCategory?.let {
-            TextUtils.setText(mTvDesc, it.description as String)
-            mToolbar.setTitle(it.name)
+        setSupportActionBar(mToolbar)
+        //  显示返回按钮
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        mCToolbar.setExpandedTitleColor(Color.WHITE)        // 展开时的颜色
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mCToolbar.setCollapsedTitleTextColor(getColor(R.color.comm_color_main_A0B61D)) // 折叠时的颜色
+        } else {
+            mCToolbar.setCollapsedTitleTextColor(Color.parseColor("FFA0B61D"))
         }
 
         mAdapter = HomeAdapter(this, mDataList, mRvData)
-
         RecyclerViewUtils.initVerticalLayoutManager(mRvData, this)
         mRvData.adapter = mAdapter
     }
 
     override fun initListeners() {
+        mToolbar.setNavigationOnClickListener {
+            finish()
+        }
+
         mAdapter.setRvClickListener(object :
             BaseClickAdapter.OnRvClickListener<HomeBean.IssueListBean.ItemListBean> {
             override fun onItemClick(
@@ -73,6 +90,10 @@ class FindDetailActivity : BaseActivity<IFindDetailView, FindDetailPresenter>(),
 
     override fun initData() {
         mCategory?.let {
+            TextUtils.setText(mTvDesc, it.description as String)
+            mCToolbar.setTitle(it.name)
+            GlideUtils.display(this, it.bgPicture as String, mIvHeaderBg)
+
             mPresenter.getCategoryDetail(it.id.toLong())
         }
     }

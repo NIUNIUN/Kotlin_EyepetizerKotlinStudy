@@ -16,13 +16,11 @@ class FindDetailPresenter(view: IFindDetailView) : BasePresenter<IFindDetailView
     }
 
     fun getCategoryDetail(id: Long) {
-        mModel.getCategoryDetailList(id, object : ICallback<HomeBean> {
-            override fun onSuccess(result: HomeBean) {
+        mModel.getCategoryDetailList(id, object : ICallback<HomeBean.IssueListBean> {
+            override fun onSuccess(result: HomeBean.IssueListBean) {
                 var temp: MutableList<HomeBean.IssueListBean.ItemListBean> = mutableListOf()
-                result.issueList?.forEach {
-                    it.itemList?.forEach {
-                        temp.add(it)
-                    }
+                result?.itemList?.forEach {
+                    temp.add(it)
                 }
                 baseView?.getCategoryDetailSuc(temp)
             }

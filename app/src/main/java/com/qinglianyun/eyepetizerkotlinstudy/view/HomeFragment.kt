@@ -51,7 +51,6 @@ class HomeFragment : BaseFragment<IHomeView, HomePresenter>(), IHomeView {
                 data: HomeBean.IssueListBean.ItemListBean,
                 position: Int
             ) {
-                Toast.makeText(mActivity, "点击 position = " + position, Toast.LENGTH_SHORT).show()
                 jumpToVideoActivity(view,data?.data as HomeBean.IssueListBean.ItemListBean.DataBean)
             }
         })

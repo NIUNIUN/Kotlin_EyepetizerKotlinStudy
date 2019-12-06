@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-path
+        name="camera"
+        path="CameraPicature"/>
+
+    <!--
+        external-path: 共享外部存储卡
+        external-files-path: 共享外部存储的文件目录 android/data/包名/files
+        external-cache-path: 共享外部存储的缓存目录 android/data/包名/cache
+        files-path: 共享内部文件存储目录  /data/data/包名/files目录
+        cache-path : 共享内部缓存目录   /data/data/包名/cache目录
+            -->
+</paths>

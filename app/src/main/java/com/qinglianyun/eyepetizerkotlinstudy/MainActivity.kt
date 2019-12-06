@@ -1,10 +1,14 @@
 package com.qinglianyun.eyepetizerkotlinstudy
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
-import android.transition.Explode
-import android.transition.Fade
-import android.transition.Slide
+import android.support.v4.content.ContextCompat
 import android.widget.ImageView
 import android.widget.TextView
 import com.qinglianyun.base.utils.BottomNavigationViewUtils
@@ -21,6 +25,8 @@ class MainActivity : BaseActivity<IMainView, MainPresenter>(), IMainView {
     private lateinit var mFragmentList: ArrayList<Fragment>
     private var selectPosition: Int = -1;
     private var mFragmentTitle: Array<String> = arrayOf("首页", "发现", "热门", "我的")
+    private var mPermission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+    private var mResultCodePer = 123
 
     override fun getLayoutView(): Int {
         return R.layout.activity_main
@@ -31,6 +37,8 @@ class MainActivity : BaseActivity<IMainView, MainPresenter>(), IMainView {
     }
 
     override fun initViews() {
+        checkPermission()
+
         mBnvMain = findViewById(R.id.bnv_main)
         mTvTitle = findViewById(R.id.tv_main_title)
         mIvSearch = findViewById(R.id.iv_main_search)
@@ -48,6 +56,7 @@ class MainActivity : BaseActivity<IMainView, MainPresenter>(), IMainView {
             SearchActivity.startAction(this, mIvSearch)
 //            SearchActivity.startAction(this)
         }
+
     }
 
     override fun initData() {
@@ -111,5 +120,23 @@ class MainActivity : BaseActivity<IMainView, MainPresenter>(), IMainView {
             }
         }
         setToolbarTitle()
+    }
+
+    private fun checkPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return
+        }
+        // 读取存储卡权限
+        var permission = ContextCompat.checkSelfPermission(this, mPermission)
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(mPermission), mResultCodePer)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Activity.RESULT_OK && resultCode == mResultCodePer) {
+
+        }
     }
 }

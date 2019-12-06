@@ -6,16 +6,21 @@
     android:layout_height="match_parent">
 
     <!--  AppBarLayout必须作为CoordinatorLayout的直接子view
+        CollapsingToolbarLayout必须作为AppBarLayout的直接子View
+           注意为了让顶部栏跟随RecyclerView有折叠效果，一定要把ScrollFlags设置给CollapsingToolbarLayout。
+
       layout_scrollFlags的属性：
             scroll- 使其具备滑动效果，否则不会滑动
             snap- 滑动到顶部才显示
             enterAlways- 往下滑动立即显示，即使不在顶部也会显示
-            enterAlwaysCollapsed- 另一种enterAlways，但是只显示折叠后的高度。和snap比较，滑动到minHeight高度就显示
+            enterAlwaysCollapsed- 另一种enterAlways，一般是配合enterAlways一起使用的。先显示最小高度，滑动到顶部全部显示
             exitUntilCollapsed- 滑动折叠，滑动后，ToolBar固定显示
 
        layout_collapseMode的属性：
             pin- 固定显示，需要和layout_scrollFlags:"exitUntilCollapsed" 一起使用
             parallax- 视差效果（视差效果是什么效果？）
+
+       app:contentScrim 属性：遮罩颜色。当toolbar折叠时
       -->
     <android.support.design.widget.AppBarLayout
         android:id="@+id/bar_find_detail"
@@ -23,22 +28,26 @@
         android:layout_height="@dimen/comm_dp_250">
 
         <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/ctool_find_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:contentScrim="@color/comm_color_white_6FFFFFFF"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            tools:title="标题">
 
             <ImageView
+                android:id="@+id/iv_head_bg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scaleType="fitXY"
                 app:layout_collapseMode="parallax" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_find_detail"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/comm_dp_50"
+                android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:titleTextColor="@color/comm_color_white"
-                tools:title="标题" />
+                app:titleTextColor="@color/comm_color_white" />
 
             <TextView
                 android:id="@+id/tv_find_detail_desc"

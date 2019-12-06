@@ -10,11 +10,12 @@
         android:layout_width="@dimen/comm_dp_70"
         android:layout_height="@dimen/comm_dp_70"
         android:layout_marginTop="@dimen/comm_dp_30"
+        android:background="@color/comm_color_gray"
+        android:scaleType="fitXY"
         android:text="个人中心"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:background="@color/comm_color_gray" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_name"
@@ -38,10 +39,12 @@
 
     <TextView
         android:id="@+id/tv_cache"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/comm_dp_10"
         android:layout_marginLeft="@dimen/comm_dp_20"
+        android:layout_marginTop="@dimen/comm_dp_10"
+        android:padding="@dimen/comm_dp_5"
+        android:gravity="center_vertical"
         android:text="我的缓存"
         android:textColor="@color/comm_color_black"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,12 +57,15 @@
         android:layout_marginTop="@dimen/comm_dp_10"
         android:background="@color/comm_color_gray_5aE1E2DE"
         app:layout_constraintTop_toBottomOf="@id/tv_cache" />
+
     <TextView
         android:id="@+id/tv_watch"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/comm_dp_10"
         android:layout_marginLeft="@dimen/comm_dp_20"
+        android:layout_marginTop="@dimen/comm_dp_10"
+        android:padding="@dimen/comm_dp_5"
+        android:gravity="center_vertical"
         android:text="观看记录"
         android:textColor="@color/comm_color_black"
         app:layout_constraintStart_toStartOf="parent"

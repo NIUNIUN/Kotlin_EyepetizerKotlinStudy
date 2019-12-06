@@ -3,10 +3,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion  rootProject.ext.buildToolsVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "com.qinglianyun.eyepetizerkotlinstudy"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -21,6 +22,20 @@ android {
             abiFilters 'armeabi', 'armeabi-v7a', 'x86'
         }
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
+                        "room.incremental"     : "true",
+                        "room.expandProjection": "true"]
+                /**
+                 * room.schemaLocation: 配置并启用将数据库架构导出到给定目录中的 JSON 文件的功能。
+                 * room.incremetal: 启用 Gradle 增量注解处理器。
+                 * room.expandProjection: 配置 Room 以重写查询，使其顶部星形投影在展开后仅包含 DAO 方法返回类型中定义的列。
+                 */
+            }
+        }
+
     }
     buildTypes {
         release {
@@ -28,7 +43,7 @@ android {
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug{
+        debug {
             multiDexEnabled true
         }
     }
@@ -64,5 +79,17 @@ dependencies {
 //    implementation 'com.shuyu:gsyVideoPlayer-x64:6.0.3'  //（可丢弃，调试可以留着，正是打包去除）
 //    implementation 'com.shuyu:gsyVideoPlayer-x86:6.0.3' //（可丢弃）
 
+    def dependencie = rootProject.ext.dependencies
+    implementation dependencie.room_runtime
+    kapt dependencie.room_compile
+//    annotationProcessor "android.arch.persistence.room:compiler:$room_version" // use kapt for Kotlin
+    testImplementation dependencie.room_test_hepler
+    implementation dependencie.room_rxjava2
 
+
+    implementation dependencie.paging_runtime
+    testImplementation dependencie.paging_common
+    implementation dependencie.paging_rxjava2
+
+    implementation dependencie.lifecycle_extension
 }

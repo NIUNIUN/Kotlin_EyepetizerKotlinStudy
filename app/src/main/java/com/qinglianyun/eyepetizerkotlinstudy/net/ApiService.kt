@@ -4,10 +4,11 @@ import com.qinglianyun.eyepetizerkotlinstudy.bean.TabInfoBean
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.FindBean
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HomeBean
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HotBean
-import io.reactivex.Observable
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
+import retrofit2.http.Streaming
 import retrofit2.http.Url
 
 /**
@@ -63,7 +64,7 @@ interface ApiService {
      * 获取分类详情List
      */
     @GET("v4/categories/videoList?")
-    fun getCategoryDetailList(@Query("id") id: Long): Call<HomeBean>
+    fun getCategoryDetailList(@Query("id") id: Long): Call<HomeBean.IssueListBean>
 
     /**
      * 获取更多的 Issue
@@ -71,7 +72,13 @@ interface ApiService {
     @GET
     fun getCategoryDataMore(@Url url: String): Call<HomeBean.IssueListBean>
 
-
+    /**
+     * 下载文件。
+     * 一定添加@Streaming,防止内存溢出。因为Retrofit会把response的内容缓存到内存，添加Streaming注解会立即缓存到磁盘
+     */
+    @Streaming
+    @GET
+    fun downloadFile(@Url url: String): Call<ResponseBody>
 
     // 首页
     @GET("v2/feed?udid=26868b32e808498db32fd51fb422d00175e179df&vc=83")

@@ -27,5 +27,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/font_fzlanting"
         tools:text="广告" />
 </android.support.constraint.ConstraintLayout>

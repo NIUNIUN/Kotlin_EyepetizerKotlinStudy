@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/comm_dp_120">
+
+    <ImageView
+        android:id="@+id/iv_cach_image"
+        android:layout_width="@dimen/comm_dp_180"
+        android:layout_marginTop="@dimen/comm_dp_5"
+        android:layout_marginBottom="@dimen/comm_dp_5"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/comm_dp_5"
+        android:scaleType="fitXY"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/comm_dp_5"
+        android:layout_marginRight="@dimen/comm_dp_5"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/comm_dp_0"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:paddingBottom="@dimen/comm_dp_5"
+            android:textColor="@color/comm_color_black"
+            tools:text="sdgegs" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/comm_dp_0"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:paddingTop="@dimen/comm_dp_5"
+            android:textColor="@color/comm_color_black_80"
+            android:textSize="@dimen/sp_12"
+            tools:text="sdgegs" />
+    </LinearLayout>
+
+    <ImageView
+
+        android:id="@+id/iv_download"
+        android:layout_width="@dimen/comm_dp_25"
+        android:layout_height="@dimen/comm_dp_25"
+        android:layout_gravity="center"
+        android:layout_marginRight="@dimen/comm_dp_5"
+        android:src="@drawable/level_download_image"
+        android:layout_marginLeft="@dimen/comm_dp_5"
+        />
+</LinearLayout>

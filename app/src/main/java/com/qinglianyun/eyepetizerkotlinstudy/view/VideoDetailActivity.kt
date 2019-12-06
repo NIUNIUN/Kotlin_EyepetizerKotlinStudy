@@ -1,28 +1,35 @@
 package com.qinglianyun.eyepetizerkotlinstudy.view
 
+import android.Manifest
 import android.app.Activity
-import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Parcelable
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.util.Pair
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.qinglianyun.base.utils.TextUtils
+import com.qinglianyun.base.utils.ToastUtils
 import com.qinglianyun.base.view.BaseActivity
 import com.qinglianyun.eyepetizerkotlinstudy.R
+import com.qinglianyun.eyepetizerkotlinstudy.bean.db.VideoDbManager
+import com.qinglianyun.eyepetizerkotlinstudy.bean.db.VideoTb
 import com.qinglianyun.eyepetizerkotlinstudy.presenter.VideoDetailPresenter
 import com.qinglianyun.eyepetizerkotlinstudy.utils.GlideUtils
+import com.qinglianyun.eyepetizerkotlinstudy.utils.SharedPreferenceUtils
 import com.qinglianyun.eyepetizerkotlinstudy.view.i.IVideoDetailView
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.VideoBean
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by tang_xqing on 2019/11/26.
@@ -70,6 +77,36 @@ class VideoDetailActivity : BaseActivity<IVideoDetailView, VideoDetailPresenter>
     }
 
     override fun initListeners() {
+        mTvDownload.setOnClickListener {
+            // 点击前判断是否有权限
+            var permission =
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "请手动开启读取存储开权限", Toast.LENGTH_SHORT).show()
+            } else {
+                savaVideo()
+            }
+        }
+    }
+
+    private fun savaVideo() {
+        mVideoBean.playUrl?.let {
+            var key = SharedPreferenceUtils.getVideoDownloadStateByKey(it)
+            if (TextUtils.isEmpty(key)) {
+                Toast.makeText(this, "开始缓存", Toast.LENGTH_SHORT).show()
+                SharedPreferenceUtils.putVideoDownloadState(it, "start")
+//                var filePath = mPresenter.downloadFile(it)
+                mPresenter.downloadFileToService(mActivity, it)
+
+                var temp = VideoTb(mVideoBean.playUrl as String, mVideoBean, "")
+                VideoDbManager.getInstance(this).addVideo(temp).subscribeOn(Schedulers.io())
+                    .subscribe { }
+            } else if ("finish".equals(key)) {
+                ToastUtils.showShortInfo("该视频已经缓存过")
+            } else {
+                ToastUtils.showShortInfo("该视频已加入缓存队列了")
+            }
+        }
     }
 
     override fun initData() {
@@ -91,8 +128,13 @@ class VideoDetailActivity : BaseActivity<IVideoDetailView, VideoDetailPresenter>
     }
 
     fun prepateVideo() {
-        // 设置播放地址
-        mGsyVideo.setUp(mVideoBean.playUrl, true, mVideoBean.title)
+        var uri = intent.getStringExtra(EXTRA_DATA_LOCALFILE)
+        if (null != uri) {
+            mGsyVideo.setUp(uri, false, mVideoBean.title)
+        } else {
+            // 设置播放地址
+            mGsyVideo.setUp(mVideoBean.playUrl, true, mVideoBean.title)
+        }
 
         // 返回按钮
         mGsyVideo.backButton.visibility = View.VISIBLE
@@ -212,11 +254,19 @@ class VideoDetailActivity : BaseActivity<IVideoDetailView, VideoDetailPresenter>
 
     companion object {
         const val EXTRA_DATA: String = "extra_video_bean"
+        const val EXTRA_DATA_LOCALFILE: String = "extra_video_bean_local_file"
         const val TRANSITION_NMAE: String = "video_tranision_name"
 
         fun startAction(ctx: Context, videoBean: VideoBean) {
             var intent: Intent = Intent(ctx, VideoDetailActivity::class.java)
             intent.putExtra(EXTRA_DATA, videoBean as Parcelable)
+            ctx.startActivity(intent)
+        }
+
+        fun startAction(ctx: Context, videoBean: VideoBean, uri: String) {
+            var intent: Intent = Intent(ctx, VideoDetailActivity::class.java)
+            intent.putExtra(EXTRA_DATA, videoBean as Parcelable)
+            intent.putExtra(EXTRA_DATA_LOCALFILE, uri)
             ctx.startActivity(intent)
         }
 

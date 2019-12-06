@@ -39,7 +39,7 @@ class SearchAdapter(
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
-//        var dataBean = mList.get(position).data
+//        var dataBean = mList.getPagedListBuilder(position).data
 //        dataBean?.run {
 //            TextUtils.setText(holder.tvTitle, title as String)
 //        }
