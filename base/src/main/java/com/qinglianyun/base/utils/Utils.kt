@@ -5,14 +5,17 @@ import android.content.Context
 /**
  * Created by tang_xqing on 2019/12/2.
  */
-object Utils {
+class Utils {
 
-    private var mContext: Context? = null
-    fun init(context: Context) {
-        mContext = context.applicationContext
-    }
+    companion object {
+        private var mContext: Context? = null
 
-    fun getContext(): Context {
-        return mContext!!
+        fun initContext(context: Context) {
+            mContext = context.applicationContext
+        }
+
+        fun getContext(): Context {
+            return mContext!!
+        }
     }
 }

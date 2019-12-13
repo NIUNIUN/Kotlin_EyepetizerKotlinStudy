@@ -5,7 +5,7 @@ import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 
-/**
+/** 软键盘工具类
  * Created by tang_xqing on 2019/11/28.
  */
 object SoftKeyboadUtils{

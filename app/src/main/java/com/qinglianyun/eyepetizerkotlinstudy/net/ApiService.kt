@@ -1,9 +1,10 @@
 package com.qinglianyun.eyepetizerkotlinstudy.net
 
 import com.qinglianyun.eyepetizerkotlinstudy.bean.TabInfoBean
-import com.tt.lvruheng.eyepetizer.mvp.model.bean.FindBean
+import com.tt.lvruheng.eyepetizer.mvp.model.bean.CategoryBean
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HomeBean
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HotBean
+import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET
@@ -33,7 +34,7 @@ interface ApiService {
      * 获取分类
      */
     @GET("v4/categories")
-    fun getCategory(): Call<MutableList<FindBean>>
+    fun getCategory(): Call<MutableList<CategoryBean>>
 
     /**
      * 获取全部排行榜的Info（包括，title 和 Url）
@@ -71,6 +72,12 @@ interface ApiService {
      */
     @GET
     fun getCategoryDataMore(@Url url: String): Call<HomeBean.IssueListBean>
+
+    /**
+     * 关注
+     */
+    @GET("v4/tabs/follow")
+    fun getFollowInfo(): Call<HomeBean.IssueListBean>
 
     /**
      * 下载文件。

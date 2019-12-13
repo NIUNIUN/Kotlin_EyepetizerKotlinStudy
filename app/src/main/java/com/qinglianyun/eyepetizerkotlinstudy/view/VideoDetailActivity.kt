@@ -21,7 +21,7 @@ import com.qinglianyun.eyepetizerkotlinstudy.R
 import com.qinglianyun.eyepetizerkotlinstudy.bean.db.VideoDbManager
 import com.qinglianyun.eyepetizerkotlinstudy.bean.db.VideoTb
 import com.qinglianyun.eyepetizerkotlinstudy.presenter.VideoDetailPresenter
-import com.qinglianyun.eyepetizerkotlinstudy.utils.GlideUtils
+import com.qinglianyun.base.utils.GlideUtils
 import com.qinglianyun.eyepetizerkotlinstudy.utils.SharedPreferenceUtils
 import com.qinglianyun.eyepetizerkotlinstudy.view.i.IVideoDetailView
 import com.shuyu.gsyvideoplayer.GSYVideoManager
@@ -240,8 +240,6 @@ class VideoDetailActivity : BaseActivity<IVideoDetailView, VideoDetailPresenter>
         mGsyVideo.clearCurrentCache()
 
         mOritation.releaseListener()
-
-
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
@@ -275,6 +273,7 @@ class VideoDetailActivity : BaseActivity<IVideoDetailView, VideoDetailPresenter>
             intent.putExtra(EXTRA_DATA, videoBean as Parcelable)
             val pair = Pair(view, TRANSITION_NMAE)
 
+            // 共享元素动画
             val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 ctx as Activity, pair
             )

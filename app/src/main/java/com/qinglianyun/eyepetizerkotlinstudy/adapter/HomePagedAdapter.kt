@@ -66,7 +66,7 @@ class HomePagedAdapter(difCallback: DiffUtil.ItemCallback<HomeBean.IssueListBean
         init {
             itemView?.run {
                 mIvPhoto = findViewById(R.id.item_iv_photo)
-                mIvImg = findViewById(R.id.item_iv_img)
+                mIvImg = findViewById(R.id.item_iv_avatar)
                 mTvTime = findViewById(R.id.item_tv_time)
                 mTvTitle = findViewById(R.id.item_tv_title)
             }

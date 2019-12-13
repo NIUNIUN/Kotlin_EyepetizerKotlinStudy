@@ -1,14 +1,18 @@
 package com.qinglianyun.eyepetizerkotlinstudy.view
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
+import android.support.annotation.RequiresApi
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.qinglianyun.base.utils.ToastUtils
@@ -17,6 +21,7 @@ import com.qinglianyun.eyepetizerkotlinstudy.R
 import com.qinglianyun.eyepetizerkotlinstudy.presenter.MainPresenter
 import com.qinglianyun.eyepetizerkotlinstudy.ui.CameraDialogFragment
 import com.qinglianyun.base.utils.CameraUtils
+import com.qinglianyun.eyepetizerkotlinstudy.utils.SharedPreferenceUtils
 import com.qinglianyun.eyepetizerkotlinstudy.view.i.IMainView
 
 /**
@@ -45,6 +50,8 @@ class PersonalFragment : BaseFragment<IMainView, MainPresenter>(), IMainView,
         mIvHeader = mActivity.findViewById(R.id.iv_head)
     }
 
+    @SuppressLint("ObjectAnimatorBinding")
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun initListeners() {
         mIvHeader.setOnClickListener {
             if (checkCameraPermission()) {
@@ -55,9 +62,32 @@ class PersonalFragment : BaseFragment<IMainView, MainPresenter>(), IMainView,
         mTvCache.setOnClickListener {
             VideoCacheActivity.startAction(mActivity)
         }
+
+        mIvHeader.setOnScrollChangeListener(
+            object : View.OnScrollChangeListener {
+                override fun onScrollChange(
+                    v: View?,
+                    scrollX: Int,
+                    scrollY: Int,
+                    oldScrollX: Int,
+                    oldScrollY: Int
+                ) {
+                    println("滑动监听 scrollX=$scrollX , scrollY=$scrollY , oldScrollX=$oldScrollX ,oldScrollY=$oldScrollY , mScrollX=${mIvHeader.scrollX} ,mScrollY=${mIvHeader.scrollY}")
+                }
+            })
     }
 
     override fun initData() {
+        var imageUri = SharedPreferenceUtils.getHeaderImage()
+        if (!imageUri.isNullOrEmpty()) {
+            var bitmap = CameraUtils.getBitmapForUri(mActivity, Uri.parse(imageUri))
+            bitmap?.let {
+                mIvHeader.setImageBitmap(it)
+            }
+        }
+
+        //Android7.0以上调用系统裁剪，提示”无法加载经过裁剪的图片“。解决方法：使用Uri.fromFile，而不是FileProvider
+        imagCropUri = Uri.fromFile(CameraUtils.createFile("corp.jpg"))
     }
 
     fun checkCameraPermission(): Boolean {
@@ -90,7 +120,7 @@ class PersonalFragment : BaseFragment<IMainView, MainPresenter>(), IMainView,
     override fun camera() {
         // 调用系统相机
         var openCameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        imageUri = CameraUtils.getOuputMediaFileUri(mActivity, "camera.jpg")
+        imageUri = CameraUtils.getOuputMediaFileUri("camera.jpg")
         if (null != imageUri) {
             // 因为指定了图片存储路径，所以onActivityResult()返回的data为null。避免有些机型不指定Uri返回data为null，所以还是指定Uri
             openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
@@ -122,36 +152,31 @@ class PersonalFragment : BaseFragment<IMainView, MainPresenter>(), IMainView,
                     }
                 } else {    // 指定了图片存储路径，通过指定的Uri来获取图片  openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri)
                     imageUri?.let {
-                        imagCropUri = CameraUtils.getOuputMediaFileUri(mActivity, "corp.jpg")
+                        // 裁剪图片
                         CameraUtils.cropImage(this, it, imagCropUri!!)
-//                        var bitmap = CameraUtils.getBitmapForUri(mActivity, it)
-//                        bitmap?.let {
-//                            mIvHeader.setImageBitmap(it)
-//                        }
                     }
                 }
             } else if (requestCode == CameraUtils.CROP_RESULT_CODE) {
                 // 裁剪时,这样设置 cropIntent.putExtra("return-data", true); 处理方案如下
-                data?.extras?.let {
-                    var bitmap = it.getParcelable<Bitmap>("data")
-                    mIvHeader.setImageBitmap(bitmap)
-                }
-            } else {
-                // 裁剪时,这样设置 cropIntent.putExtra("return-data", false); 处理方案如下
-                imagCropUri?.let {
-                    var bitmap = CameraUtils.getBitmapForUri(mActivity, it)
-                    bitmap?.let {
-                        mIvHeader.setImageBitmap(it)
-                    }
-                }
-            }
-        } else if (requestCode == CameraUtils.ALBUM_RESULT_CODE) {
-            data?.data?.let {
-                ToastUtils.showShortInfo("获取图片 " + it)
-//                var bitmap = CameraUtils.getBitmapForUri(mActivity, it)
-//                bitmap?.let {
-//                    mIvHeader.setImageBitmap(it)
+//                data?.extras?.let {
+//                    var bitmap = it.getParcelable<Bitmap>("data")
+//                    mIvHeader.setImageBitmap(bitmap)
 //                }
+
+                // 裁剪时,这样设置 cropIntent.putExtra("return-data", false); 处理方案如下
+                setBitmapByUri(imagCropUri)
+            } else if (requestCode == CameraUtils.ALBUM_RESULT_CODE) {
+                CameraUtils.cropImage(this, data?.data!!, imagCropUri!!)
+            }
+        }
+    }
+
+    private fun setBitmapByUri(uri: Uri?) {
+        uri?.let {
+            var bitmap = CameraUtils.getBitmapForUri(mActivity, it)
+            bitmap?.let {
+                SharedPreferenceUtils.putHeaderImage(uri.toString())
+                mIvHeader.setImageBitmap(it)
             }
         }
     }

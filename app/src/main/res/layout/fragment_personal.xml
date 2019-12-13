@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+<!--    <com.qinglianyun.eyepetizerkotlinstudy.ui.ScrollImage-->
     <ImageView
         android:id="@+id/iv_head"
         android:layout_width="@dimen/comm_dp_70"

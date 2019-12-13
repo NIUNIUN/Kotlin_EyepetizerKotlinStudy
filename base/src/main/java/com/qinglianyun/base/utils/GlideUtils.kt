@@ -1,4 +1,4 @@
-package com.qinglianyun.eyepetizerkotlinstudy.utils
+package com.qinglianyun.base.utils
 
 import android.content.Context
 import android.graphics.*
@@ -11,36 +11,37 @@ import android.graphics.RectF
 import android.graphics.BitmapShader
 import android.graphics.Bitmap
 import android.content.res.Resources
+import com.qinglianyun.base.R
 
 /**
  * Created by tang_xqing on 2019/11/25.
  */
 object GlideUtils {
-    fun display(ctx: Context, imgUri: String, ivImg: ImageView) {
+
+    fun display(ctx: Context, imgUri: String, ivImg: ImageView, placeholderImg: Int = R.mipmap.ic_image_loading, errorImg:Int = R.mipmap.ic_empty_picture){
         Glide.with(ctx)
             .load(imgUri)
-            .error(com.qinglianyun.eyepetizerkotlinstudy.R.mipmap.ic_empty_picture)
-            .placeholder(com.qinglianyun.eyepetizerkotlinstudy.R.mipmap.ic_image_loading)
+            .error(errorImg)
+            .placeholder(placeholderImg)
             .crossFade()
             .into(ivImg)
-
     }
 
-    fun displayCircle(ctx: Context, imgUri: String, ivImg: ImageView) {
+    fun displayCircle(ctx: Context,imgUri: String,ivImg: ImageView,placeholderImg: Int = R.mipmap.ic_image_loading,errorImg: Int = R.mipmap.ic_empty_picture){
         Glide.with(ctx)
             .load(imgUri)
-            .error(com.qinglianyun.eyepetizerkotlinstudy.R.mipmap.ic_empty_picture)
-            .placeholder(com.qinglianyun.eyepetizerkotlinstudy.R.mipmap.ic_image_loading)
+            .error(errorImg)
+            .placeholder(placeholderImg)
             .transform(GlideCircleTransform(ctx))
             .crossFade()
             .into(ivImg)
     }
 
-    fun displayRound(ctx: Context, imgUri: String, ivImg: ImageView, radio: Int = 5) {
+    fun displayRound(ctx: Context, imgUri: String, ivImg: ImageView, radio: Int = 5,placeholderImg: Int = R.mipmap.ic_image_loading,errorImg: Int = R.mipmap.ic_empty_picture){
         Glide.with(ctx)
             .load(imgUri)
-            .error(com.qinglianyun.eyepetizerkotlinstudy.R.mipmap.ic_empty_picture)
-            .placeholder(com.qinglianyun.eyepetizerkotlinstudy.R.mipmap.ic_image_loading)
+            .error(errorImg)
+            .placeholder(placeholderImg)
             .transform(GlideRound2Transform(ctx, radio))
             .crossFade()
             .into(ivImg)
@@ -83,7 +84,7 @@ class GlideCircleTransform(ctx: Context) : BitmapTransformation(ctx) {
         }
 
         // 3、画圆
-        var canvas: Canvas = Canvas(result)
+        var canvas = Canvas(result)
         var paint = Paint()
         paint.shader = BitmapShader(squared, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
         paint.isAntiAlias = true

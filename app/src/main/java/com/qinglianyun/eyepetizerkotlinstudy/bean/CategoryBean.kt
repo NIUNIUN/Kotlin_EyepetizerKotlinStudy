@@ -3,9 +3,9 @@ package com.tt.lvruheng.eyepetizer.mvp.model.bean
 import android.os.Parcel
 import android.os.Parcelable
 
-data class FindBean(var id: Int, var name: String?,
-                    var description: String?, var bgPicture: String?,
-                    var bgColor: String?, var headerImage: String?) :Parcelable{
+data class CategoryBean(var id: Int, var name: String?,
+                        var description: String?, var bgPicture: String?,
+                        var bgColor: String?, var headerImage: String?) :Parcelable{
     /**
      * id : 36
      * name : 生活
@@ -38,12 +38,12 @@ data class FindBean(var id: Int, var name: String?,
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<FindBean> {
-        override fun createFromParcel(parcel: Parcel): FindBean {
-            return FindBean(parcel)
+    companion object CREATOR : Parcelable.Creator<CategoryBean> {
+        override fun createFromParcel(parcel: Parcel): CategoryBean {
+            return CategoryBean(parcel)
         }
 
-        override fun newArray(size: Int): Array<FindBean?> {
+        override fun newArray(size: Int): Array<CategoryBean?> {
             return arrayOfNulls(size)
         }
     }

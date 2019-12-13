@@ -13,7 +13,7 @@ import com.qinglianyun.base.utils.ToastUtils
 import com.qinglianyun.eyepetizerkotlinstudy.R
 import com.qinglianyun.eyepetizerkotlinstudy.bean.db.VideoTb
 import com.qinglianyun.eyepetizerkotlinstudy.services.DownloadService
-import com.qinglianyun.eyepetizerkotlinstudy.utils.GlideUtils
+import com.qinglianyun.base.utils.GlideUtils
 import com.qinglianyun.eyepetizerkotlinstudy.utils.SharedPreferenceUtils
 
 /**

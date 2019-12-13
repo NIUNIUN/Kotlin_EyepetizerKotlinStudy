@@ -10,17 +10,17 @@ import android.widget.TextView
 import com.qinglianyun.base.adapter.BaseClickAdapter
 import com.qinglianyun.base.utils.TextUtils
 import com.qinglianyun.eyepetizerkotlinstudy.R
-import com.qinglianyun.eyepetizerkotlinstudy.utils.GlideUtils
-import com.tt.lvruheng.eyepetizer.mvp.model.bean.FindBean
+import com.qinglianyun.base.utils.GlideUtils
+import com.tt.lvruheng.eyepetizer.mvp.model.bean.CategoryBean
 
 /**
  * Created by tang_xqing on 2019/11/26.
  */
-class FoundAdapter(
-    ctx: Context, data: MutableList<FindBean>, rvView: RecyclerView
-) : BaseClickAdapter<FindBean, FoundAdapter.FoundViewHolder>(ctx, data, rvView) {
+class CategoryAdapter(
+    ctx: Context, data: MutableList<CategoryBean>, rvView: RecyclerView
+) : BaseClickAdapter<CategoryBean, CategoryAdapter.FoundViewHolder>(ctx, data, rvView) {
 
-    fun setData(dataList: MutableList<FindBean>) {
+    fun setData(dataList: MutableList<CategoryBean>) {
         if (null != dataList) {
             mList.clear()
             mList.addAll(dataList)
@@ -30,7 +30,7 @@ class FoundAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoundViewHolder {
         var view =
-            LayoutInflater.from(mCtx).inflate(R.layout.item_found_category_layout, parent, false)
+            LayoutInflater.from(mCtx).inflate(R.layout.item_category_layout, parent, false)
         view.setOnClickListener(this)
         return FoundViewHolder(view)
     }

@@ -1,5 +1,7 @@
 package com.tt.lvruheng.eyepetizer.mvp.model.bean
 
+import java.io.Serializable
+
 data class HomeBean(
     var nextPageUrl: String?, var nextPublishTime: Long,
     var newestIssueType: String?, var dialog: Any?,
@@ -12,7 +14,7 @@ data class HomeBean(
         var itemList: List<ItemListBean>?, val nextPageUrl: String
     ) {
 
-        data class ItemListBean(var type: String?, var data: DataBean?, var tag: Any?) {
+        data class ItemListBean(var type: String?, var data: DataBean?, var tag: String?) {
             data class DataBean(
                 var dataType: String?,
                 var id: Int,
@@ -24,15 +26,24 @@ data class HomeBean(
                 var isShade: Boolean,
                 var label: Any?,
                 var labelList: Any?,
-                var header: Any?,
+                var header: Header,
                 var category: String?,
                 var duration: Long?,
                 var playUrl: String,
                 var cover: CoverBean?,
                 var author: AuthorBean?,
                 var releaseTime: Long?,
-                var consumption: ConsumptionBean?
-            ) {
+                var consumption: ConsumptionBean?,
+                val tags: ArrayList<Tag>,
+                val itemList: ArrayList<HomeBean.IssueListBean.ItemListBean>
+            ) : Serializable {
+                data class Tag(
+                    val id: Int,
+                    val name: String,
+                    val actionUrl: String,
+                    val adTrack: Any
+                ) : Serializable
+
                 data class CoverBean(
                     var feed: String?, var detail: String?,
                     var blurred: String?, var sharing: String?, var homepage: String?
@@ -45,6 +56,28 @@ data class HomeBean(
                 )
 
                 data class AuthorBean(var icon: String)
+
+                data class Header(
+                    val id: Int,
+                    val icon: String,
+                    val iconType: String,
+                    val description: String,
+                    val title: String,
+                    val font: String,
+                    val cover: String,
+                    val label: Label,
+                    val actionUrl: String,
+                    val subtitle: String,
+                    val labelList: ArrayList<Label>
+                ) :
+                    Serializable {
+                    data class Label(
+                        val text: String,
+                        val card: String,
+                        val detial: Any,
+                        val actionUrl: Any
+                    )
+                }
             }
         }
     }

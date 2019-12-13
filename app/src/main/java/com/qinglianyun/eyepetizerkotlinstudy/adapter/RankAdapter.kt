@@ -10,7 +10,7 @@ import android.widget.TextView
 import com.qinglianyun.base.adapter.BaseClickAdapter
 import com.qinglianyun.base.utils.TextUtils
 import com.qinglianyun.eyepetizerkotlinstudy.R
-import com.qinglianyun.eyepetizerkotlinstudy.utils.GlideUtils
+import com.qinglianyun.base.utils.GlideUtils
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HotBean
 
 /**

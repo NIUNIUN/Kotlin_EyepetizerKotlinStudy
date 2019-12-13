@@ -55,7 +55,7 @@ class HotFragment : BaseFragment<IHotView, HotPresenter>(), IHotView {
                 }
             }
             mVpList.adapter =
-                BasePagerAdater(fragmentManager as FragmentManager, mDataList, talTitle)
+                BasePagerAdater(childFragmentManager, mDataList, talTitle)
             mTabLayout.setupWithViewPager(mVpList)
         }
     }

@@ -8,7 +8,7 @@ import android.util.Log;
 
 import java.lang.reflect.Field;
 
-/**
+/** 解决Api28下，BottomNavigationView超过3个Item显示不正常
  * Created by tang_xqing on 2019/10/8.
  */
 
@@ -30,7 +30,7 @@ public class BottomNavigationViewUtils {
                 item.setChecked(item.getItemData().isChecked());
             }
         } catch (NoSuchFieldException e) {
-            Log.e("BNVHelper", "没有mShiftingMode这个成员变量", e);
+            Log.e("BottomNavigationView", "没有mShiftingMode这个成员变量", e);
         } catch (IllegalAccessException e) {
             Log.e("BNVHelper", "无法修改mShiftingMode的值", e);
         }

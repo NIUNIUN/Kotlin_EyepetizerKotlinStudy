@@ -4,7 +4,7 @@ import com.qinglianyun.base.comm.CommError
 import com.qinglianyun.base.net.*
 import com.qinglianyun.eyepetizerkotlinstudy.bean.TabInfoBean
 import com.qinglianyun.eyepetizerkotlinstudy.net.ApiService
-import com.tt.lvruheng.eyepetizer.mvp.model.bean.FindBean
+import com.tt.lvruheng.eyepetizer.mvp.model.bean.CategoryBean
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HomeBean
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HotBean
 import okhttp3.ResponseBody
@@ -32,8 +32,8 @@ class HomeModel : BaseModel() {
     }
 }
 
-class FoundModel : BaseModel() {
-    fun getCategory(callListener: ICallback<MutableList<FindBean>>) {
+class CategoryModel : BaseModel() {
+    fun getCategory(callListener: ICallback<MutableList<CategoryBean>>) {
         mApiString.getCategory()
             .enqueue(BaseCallback(callListener))
     }
@@ -44,7 +44,16 @@ class FoundModel : BaseModel() {
 
     }
 
-    fun getCategoryDataMore(url: String, callListener: ICallback<HomeBean.IssueListBean>) {
+
+}
+
+class FollowModel : BaseModel() {
+
+    fun getFollowData(callListener: ICallback<HomeBean.IssueListBean>) {
+        mApiString.getFollowInfo().enqueue(BaseCallback(callListener))
+    }
+
+    fun getFollowDataMore(url: String, callListener: ICallback<HomeBean.IssueListBean>) {
         mApiString.getCategoryDataMore(url)
             .enqueue(BaseCallback(callListener))
     }

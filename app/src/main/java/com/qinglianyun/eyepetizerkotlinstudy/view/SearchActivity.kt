@@ -11,7 +11,6 @@ import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
-import android.transition.Explode
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.view.View

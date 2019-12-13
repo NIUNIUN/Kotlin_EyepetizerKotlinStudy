@@ -15,7 +15,8 @@ object SharedPreferenceUtils {
     private var sp: SharedPreferences
 
     init {
-        sp = mCtx.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE)
+        sp = mCtx.getSharedPreferences(
+            SP_NAME, Context.MODE_PRIVATE)
     }
 
     fun putVideoDownloadState(key: String, download: String) {
@@ -26,4 +27,11 @@ object SharedPreferenceUtils {
         return sp.getString(key, null)
     }
 
+    fun putHeaderImage(uri: String) {
+        sp.edit().putString(HEAD_IMG, uri).apply()
+    }
+
+    fun getHeaderImage(): String {
+        return sp.getString(HEAD_IMG, "")
+    }
 }

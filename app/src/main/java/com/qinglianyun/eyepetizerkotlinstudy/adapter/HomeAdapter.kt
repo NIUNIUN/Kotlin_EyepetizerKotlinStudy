@@ -10,7 +10,7 @@ import android.widget.TextView
 import com.qinglianyun.base.adapter.BaseClickAdapter
 import com.qinglianyun.base.utils.TextUtils
 import com.qinglianyun.eyepetizerkotlinstudy.R
-import com.qinglianyun.eyepetizerkotlinstudy.utils.GlideUtils
+import com.qinglianyun.base.utils.GlideUtils
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HomeBean
 
 /**
@@ -61,7 +61,7 @@ class HomeAdapter(
             }
 
             GlideUtils.display(mCtx, dataBean?.cover?.feed as String, holder.mIvPhoto)
-            GlideUtils.displayCircle(mCtx, dataBean?.author?.icon as String, holder.mIvImg)
+            GlideUtils.displayCircle(mCtx, dataBean?.author?.icon as String, holder.mIvImg,R.mipmap.default_avatar,R.mipmap.default_avatar)
             TextUtils.setText(holder.mTvTitle, dataBean?.title ?: "--")
             TextUtils.setText(holder.mTvTime, "发布于 $category / $realMinute:$realSecond")
         }
@@ -76,7 +76,7 @@ class HomeAdapter(
         init {
             itemView?.run {
                 mIvPhoto = findViewById(R.id.item_iv_photo)
-                mIvImg = findViewById(R.id.item_iv_img)
+                mIvImg = findViewById(R.id.item_iv_avatar)
                 mTvTime = findViewById(R.id.item_tv_time)
                 mTvTitle = findViewById(R.id.item_tv_title)
             }

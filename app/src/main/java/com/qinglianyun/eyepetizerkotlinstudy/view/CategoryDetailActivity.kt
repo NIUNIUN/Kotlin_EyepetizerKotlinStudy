@@ -17,17 +17,17 @@ import com.qinglianyun.base.utils.TextUtils
 import com.qinglianyun.base.view.BaseActivity
 import com.qinglianyun.eyepetizerkotlinstudy.R
 import com.qinglianyun.eyepetizerkotlinstudy.adapter.HomeAdapter
-import com.qinglianyun.eyepetizerkotlinstudy.presenter.FindDetailPresenter
-import com.qinglianyun.eyepetizerkotlinstudy.utils.GlideUtils
-import com.qinglianyun.eyepetizerkotlinstudy.view.i.IFindDetailView
-import com.tt.lvruheng.eyepetizer.mvp.model.bean.FindBean
+import com.qinglianyun.eyepetizerkotlinstudy.presenter.CategoryDetailPresenter
+import com.qinglianyun.base.utils.GlideUtils
+import com.qinglianyun.eyepetizerkotlinstudy.view.i.ICategoryDetailView
+import com.tt.lvruheng.eyepetizer.mvp.model.bean.CategoryBean
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HomeBean
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.VideoBean
 
 /**
  * Created by tang_xqing on 2019/11/29.
  */
-class FindDetailActivity : BaseActivity<IFindDetailView, FindDetailPresenter>(), IFindDetailView {
+class CategoryDetailActivity : BaseActivity<ICategoryDetailView, CategoryDetailPresenter>(), ICategoryDetailView {
 
     private lateinit var mRvData: RecyclerView
     private lateinit var mTvDesc: TextView
@@ -37,18 +37,18 @@ class FindDetailActivity : BaseActivity<IFindDetailView, FindDetailPresenter>(),
 
     private lateinit var mAdapter: HomeAdapter
     private var mDataList: MutableList<HomeBean.IssueListBean.ItemListBean> = mutableListOf()
-    private var mCategory: FindBean? = null
+    private var mCategory: CategoryBean? = null
 
     override fun getLayoutView(): Int {
         return R.layout.activity_find_detail
     }
 
     override fun initPresenter() {
-        mPresenter = FindDetailPresenter(this)
+        mPresenter = CategoryDetailPresenter(this)
     }
 
     override fun initViews() {
-        mCategory = intent.getParcelableExtra<FindBean>(EXTRA_KEY)
+        mCategory = intent.getParcelableExtra<CategoryBean>(EXTRA_KEY)
         mRvData = findViewById(R.id.rv_find_detail)
         mTvDesc = findViewById(R.id.tv_find_detail_desc)
         mToolbar = findViewById(R.id.toolbar_find_detail)
@@ -139,9 +139,9 @@ class FindDetailActivity : BaseActivity<IFindDetailView, FindDetailPresenter>(),
 
     companion object {
         const val EXTRA_KEY = "extra_key"
-        fun startAction(ctx: Context, findBean: FindBean) {
-            var intent = Intent(ctx, FindDetailActivity::class.java)
-            intent.putExtra(EXTRA_KEY, findBean as Parcelable)
+        fun startAction(ctx: Context, categoryBean: CategoryBean) {
+            var intent = Intent(ctx, CategoryDetailActivity::class.java)
+            intent.putExtra(EXTRA_KEY, categoryBean as Parcelable)
             ctx.startActivity(intent)
         }
     }

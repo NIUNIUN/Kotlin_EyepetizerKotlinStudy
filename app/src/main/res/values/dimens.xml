@@ -21,6 +21,7 @@
     <dimen name="comm_dp_180">180dp</dimen>
     <dimen name="comm_dp_200">200dp</dimen>
     <dimen name="comm_dp_250">250dp</dimen>
+    <dimen name="comm_dp_300">300dp</dimen>
 
 
     <dimen name="comm_sp_12">12sp</dimen>

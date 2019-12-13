@@ -12,7 +12,7 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         mContext = this
-        Utils.init(this)
+        Utils.initContext(this)
         MultiDex.install(this)
     }
 

@@ -52,7 +52,7 @@
             android:name=".view.SearchActivity"
             android:windowSoftInputMode="adjustPan" />
 
-        <activity android:name=".view.FindDetailActivity" />
+        <activity android:name=".view.CategoryDetailActivity" />
 
         <activity android:name=".view.VideoCacheActivity" />
     </application>

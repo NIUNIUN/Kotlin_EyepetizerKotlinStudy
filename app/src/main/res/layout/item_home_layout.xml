@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/item_iv_img"
+        android:id="@+id/item_iv_avatar"
         android:layout_width="@dimen/comm_dp_50"
         android:layout_height="@dimen/comm_dp_50"
         android:layout_marginHorizontal="@dimen/comm_dp_8"
@@ -34,7 +34,7 @@
         android:gravity="center_vertical"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/item_iv_img"
+        app:layout_constraintStart_toEndOf="@id/item_iv_avatar"
         app:layout_constraintTop_toBottomOf="@id/item_iv_photo">
 
         <TextView
@@ -50,6 +50,7 @@
             android:id="@+id/item_tv_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/comm_dp_5"
             android:textColor="@color/comm_color_second"
             android:textSize="@dimen/comm_sp_14"
             tools:text="2019 11/22" />
