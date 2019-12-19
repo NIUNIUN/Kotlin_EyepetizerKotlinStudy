@@ -62,9 +62,6 @@ class VideoDetailActivity : BaseActivity<IVideoDetailView, VideoDetailPresenter>
 
     override fun initViews() {
         mVideoBean = intent.getParcelableExtra(EXTRA_DATA)
-        if (null == mVideoBean) {
-            finish()
-        }
 
         mGsyVideo = findViewById(R.id.sgsy_video)
         mTvTitle = findViewById(R.id.tv_video_title)
@@ -110,7 +107,7 @@ class VideoDetailActivity : BaseActivity<IVideoDetailView, VideoDetailPresenter>
     }
 
     override fun initData() {
-        mVideoBean?.run {
+        mVideoBean.run {
             with(TextUtils) {
                 setText(mTvTitle, title as String)
                 setText(mTvDetail, description as String)
@@ -256,20 +253,20 @@ class VideoDetailActivity : BaseActivity<IVideoDetailView, VideoDetailPresenter>
         const val TRANSITION_NMAE: String = "video_tranision_name"
 
         fun startAction(ctx: Context, videoBean: VideoBean) {
-            var intent: Intent = Intent(ctx, VideoDetailActivity::class.java)
+            var intent = Intent(ctx, VideoDetailActivity::class.java)
             intent.putExtra(EXTRA_DATA, videoBean as Parcelable)
             ctx.startActivity(intent)
         }
 
         fun startAction(ctx: Context, videoBean: VideoBean, uri: String) {
-            var intent: Intent = Intent(ctx, VideoDetailActivity::class.java)
+            var intent = Intent(ctx, VideoDetailActivity::class.java)
             intent.putExtra(EXTRA_DATA, videoBean as Parcelable)
             intent.putExtra(EXTRA_DATA_LOCALFILE, uri)
             ctx.startActivity(intent)
         }
 
         fun startAction(ctx: Context, videoBean: VideoBean, view: View) {
-            var intent: Intent = Intent(ctx, VideoDetailActivity::class.java)
+            var intent = Intent(ctx, VideoDetailActivity::class.java)
             intent.putExtra(EXTRA_DATA, videoBean as Parcelable)
             val pair = Pair(view, TRANSITION_NMAE)
 

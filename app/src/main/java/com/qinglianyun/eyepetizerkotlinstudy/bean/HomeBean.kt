@@ -35,7 +35,7 @@ data class HomeBean(
                 var releaseTime: Long?,
                 var consumption: ConsumptionBean?,
                 val tags: ArrayList<Tag>,
-                val itemList: ArrayList<HomeBean.IssueListBean.ItemListBean>
+                val itemList: ArrayList<ItemListBean>
             ) : Serializable {
                 data class Tag(
                     val id: Int,
@@ -82,5 +82,39 @@ data class HomeBean(
         }
     }
 }
+
+fun HomeBean.IssueListBean.ItemListBean.coverToVideoBean(): VideoBean {
+    var videoBean = data?.run {
+        var feed = cover?.feed as String
+        var blurred = cover?.blurred
+        var shared = consumption?.shareCount
+        var reply = consumption?.replyCount
+        var collect = consumption?.collectionCount
+        VideoBean(
+            feed,
+            title,
+            description,
+            duration,
+            playUrl,
+            category,
+            blurred,
+            collect,
+            shared,
+            reply,
+            System.currentTimeMillis()
+        )
+    }
+    return videoBean!!
+}
+
+// 扩展属性
+var HomeBean.IssueListBean.ItemListBean.isText:String
+    get() {
+       return  this.type!!
+    }
+   set(value) {
+       this.type = value
+   }
+
 
 

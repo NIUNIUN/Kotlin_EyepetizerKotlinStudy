@@ -28,11 +28,9 @@ class RankAdapter(
     ) {
 
     fun setDataList(dataList: MutableList<HotBean.ItemListBean.DataBean>) {
-        dataList?.let {
-            mList.clear()
-            mList.addAll(it)
-            notifyDataSetChanged()
-        }
+        mList.clear()
+        mList.addAll(dataList)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankViewHolder {

@@ -29,11 +29,22 @@ class FollowAdapter(
     rvView
 ) {
 
+    private var onFollowListener: (position: Int) -> Unit = {}
+    private var onJumpListener: (view: View, data: HomeBean.IssueListBean.ItemListBean) -> Unit =
+        { view, data -> }
+
+
+    fun setListenerFollow(listener: (Int) -> Unit) {
+        onFollowListener = listener
+    }
+
+    fun setListenerJump(listener: (View, HomeBean.IssueListBean.ItemListBean) -> Unit) {
+        onJumpListener = listener
+    }
+
     fun setDataList(result: MutableList<HomeBean.IssueListBean.ItemListBean>) {
-        result?.let {
-            mList.addAll(it)
-            notifyDataSetChanged()
-        }
+        mList.addAll(result)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowViewHodler {
@@ -63,24 +74,12 @@ class FollowAdapter(
                         data: HomeBean.IssueListBean.ItemListBean,
                         position: Int
                     ) {
-                        // 调转到视频播放页
-                        jumpToVideo(view, data)
+                        onJumpListener.invoke(view, data)
                     }
                 })
             }
-        }
-    }
 
-    fun jumpToVideo(view: View, data: HomeBean.IssueListBean.ItemListBean) {
-        // 转换成VideoBean
-        data.data?.run {
-            var feed = cover?.feed as String
-            var blurred = cover?.blurred
-            var shared = consumption?.shareCount
-            var reply = consumption?.replyCount
-            var collect = consumption?.collectionCount
-            var videoBean: VideoBean = VideoBean(feed,title,description,duration,playUrl,category,blurred,collect,shared,reply,System.currentTimeMillis())
-            VideoDetailActivity.startAction(mCtx, videoBean, view)
+            tvFocus.setOnClickListener { onFollowListener.invoke(position) }
         }
     }
 
@@ -101,4 +100,19 @@ class FollowAdapter(
             }
         }
     }
+
+
+    /**
+     * 传统写法（java写法）步骤：
+     * 1、声明interface
+     * 2、定义一个接口对象
+     * 3、定义一个方法，用来外部调用，给接口对象赋值
+     * 4、调用接口对象的方法，外部回调（及时响应）
+     *
+     *
+     * kotlion 高阶函数写法步骤： （既然要使用lambda表达式，那么方法的参数必须要是函数） 优势：没有接口定义，没有匿名内部类
+     * 1、定义变量--函数   （相当于声明interface、定义接口对象）
+     * 2、定义方法，用于外部调用，给变量赋值
+     * 3、调用函数变量，外部回调方法（及时响应）
+     */
 }

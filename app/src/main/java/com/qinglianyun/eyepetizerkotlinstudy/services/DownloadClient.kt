@@ -32,7 +32,7 @@ class DownloadClient private constructor() {
         var name = url.hashCode().toString()
 //        var i = url?.lastIndexOf('/');//一定是找最后一个'/'出现的位置
 //        if (i != -1) {
-//            name = url.substring(i)
+//            delegeName = url.substring(i)
 //        }
 
         var parentFile = Environment.getExternalStorageDirectory().absolutePath

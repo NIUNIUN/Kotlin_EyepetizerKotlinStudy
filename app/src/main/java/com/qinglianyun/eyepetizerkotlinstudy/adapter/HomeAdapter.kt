@@ -28,11 +28,8 @@ class HomeAdapter(
     ) {
 
     fun setDataList(dataList: MutableList<HomeBean.IssueListBean.ItemListBean>) {
-        if (null != dataList) {
-            mList.clear()
-            mList.addAll(dataList)
-            notifyDataSetChanged()
-        }
+        mList.addAll(dataList)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
@@ -61,7 +58,13 @@ class HomeAdapter(
             }
 
             GlideUtils.display(mCtx, dataBean?.cover?.feed as String, holder.mIvPhoto)
-            GlideUtils.displayCircle(mCtx, dataBean?.author?.icon as String, holder.mIvImg,R.mipmap.default_avatar,R.mipmap.default_avatar)
+            GlideUtils.displayCircle(
+                mCtx,
+                dataBean?.author?.icon as String,
+                holder.mIvImg,
+                R.mipmap.default_avatar,
+                R.mipmap.default_avatar
+            )
             TextUtils.setText(holder.mTvTitle, dataBean?.title ?: "--")
             TextUtils.setText(holder.mTvTime, "发布于 $category / $realMinute:$realSecond")
         }

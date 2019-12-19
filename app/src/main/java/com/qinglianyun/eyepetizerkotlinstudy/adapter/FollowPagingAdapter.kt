@@ -18,6 +18,9 @@ import com.qinglianyun.base.utils.GlideUtils
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HomeBean
 
 /**
+ * Paging库添加HeaderView、FootView
+ * 另类的实现方式: https://juejin.im/post/5caa0052f265da24ea7d3c2c
+ *
  * Created by tang_xqing on 2019/12/11.
  */
 class FollowPagingAdapter(diffCallback: DiffUtil.ItemCallback<HomeBean.IssueListBean.ItemListBean>) :
@@ -25,10 +28,17 @@ class FollowPagingAdapter(diffCallback: DiffUtil.ItemCallback<HomeBean.IssueList
         diffCallback
     ) {
 
-    private var mListener: OnFollowClickListener? = null
+    private var mListenerFollow: (View, HomeBean.IssueListBean.ItemListBean) -> Unit =
+        { view, itemListBean -> }
+    private var mListenerChild: (View, HomeBean.IssueListBean.ItemListBean) -> Unit =
+        { view, itemListBean -> }
 
-    fun setFollowClickListener(listener: OnFollowClickListener) {
-        mListener = listener
+    fun setFollowListener(listener: (View, HomeBean.IssueListBean.ItemListBean) -> Unit) {
+        mListenerFollow = listener
+    }
+
+    fun setChildListener(listener: (View, HomeBean.IssueListBean.ItemListBean) -> Unit) {
+        mListenerChild = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -71,18 +81,12 @@ class FollowPagingAdapter(diffCallback: DiffUtil.ItemCallback<HomeBean.IssueList
                             data: HomeBean.IssueListBean.ItemListBean,
                             position: Int
                         ) {
-
-                            mListener?.let {
-                                it.onClickChild(view, data)
-                            }
+                            mListenerChild.invoke(view, data)
                         }
                     })
-                }
-                tvFocus.setOnClickListener {
-                    mListener?.run {
-                        getItem(position)?.run {
-                            onClickFollow(tvFocus, this)
-                        }
+
+                    tvFocus.setOnClickListener {
+                        mListenerFollow.invoke(it, getItem(position)!!)
                     }
                 }
             }
@@ -107,14 +111,14 @@ class FollowPagingAdapter(diffCallback: DiffUtil.ItemCallback<HomeBean.IssueList
 
     private fun getHeaderHolder(context: Context): RecyclerView.ViewHolder {
         var textView = TextView(context)
-        textView.setText("                     ~~~我是顶部占位符 (✿◡‿◡)~~~")
+        textView.setText("                     ~~~顶部占位符 (✿◡‿◡)~~~")
         return object : RecyclerView.ViewHolder(textView) {
         }
     }
 
     private fun getFootHolder(context: Context): RecyclerView.ViewHolder {
         var textView = TextView(context)
-        textView.setText("                   ~~~我是顶部占位符╰(*°▽°*)╯~~~")
+        textView.setText("                   ~~~顶部占位符╰(*°▽°*)╯~~~")
         return object : RecyclerView.ViewHolder(textView) {
         }
     }
@@ -157,10 +161,5 @@ class FollowPagingAdapter(diffCallback: DiffUtil.ItemCallback<HomeBean.IssueList
                 return oldItem == newItem
             }
         }
-    }
-
-    interface OnFollowClickListener {
-        fun onClickFollow(view: View, data: HomeBean.IssueListBean.ItemListBean)
-        fun onClickChild(view: View, data: HomeBean.IssueListBean.ItemListBean)
     }
 }

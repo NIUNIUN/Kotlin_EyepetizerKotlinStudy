@@ -25,6 +25,9 @@ object TextUtils {
                 tv.setText(str)
             }
         }
+
+        var str:Float = 1.243f
+        str.hashCode()
     }
 
     /**
@@ -35,5 +38,4 @@ object TextUtils {
         tv.filter { null != it }
             .forEach { it.setText(defaultValue) }
     }
-
 }

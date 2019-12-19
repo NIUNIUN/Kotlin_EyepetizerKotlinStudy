@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityOptionsCompat
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
@@ -25,11 +26,13 @@ import com.qinglianyun.base.utils.TextUtils
 import com.qinglianyun.base.view.BaseActivity
 import com.qinglianyun.eyepetizerkotlinstudy.R
 import com.qinglianyun.eyepetizerkotlinstudy.adapter.HomeAdapter
+import com.qinglianyun.eyepetizerkotlinstudy.adapter.HomePagedAdapter
 import com.qinglianyun.eyepetizerkotlinstudy.adapter.SearchAdapter
 import com.qinglianyun.eyepetizerkotlinstudy.presenter.SearchPresenter
 import com.qinglianyun.eyepetizerkotlinstudy.view.i.ISearchView
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HomeBean
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.VideoBean
+import com.tt.lvruheng.eyepetizer.mvp.model.bean.coverToVideoBean
 import kotlin.collections.ArrayList
 
 /**
@@ -46,6 +49,7 @@ class SearchActivity : BaseActivity<ISearchView, SearchPresenter>(), ISearchView
 
     private lateinit var mHotKeyAdapter: SearchAdapter
     private lateinit var mHotResultAdapter: HomeAdapter
+
     private var mHotData: MutableList<String> = mutableListOf()
     private var mSearchResult: MutableList<HomeBean.IssueListBean.ItemListBean> = mutableListOf()
 
@@ -122,44 +126,32 @@ class SearchActivity : BaseActivity<ISearchView, SearchPresenter>(), ISearchView
                 jumpToActivity(data)
             }
         })
-    }
 
-    private fun jumpToActivity(data: HomeBean.IssueListBean.ItemListBean) {
-        data?.let {
-            var dataBean = it.data
-            dataBean?.run {
-                var phono = cover?.feed
-                var title = title
-                var description = description
-                var category = category
-                var duration = duration
-                var playUrl = playUrl
-                var blurred = cover?.blurred
-                var collect = consumption?.collectionCount
-                var share = consumption?.shareCount
-                var reply = consumption?.replyCount
-                var videoBean: VideoBean = VideoBean(
-                    phono,
-                    title,
-                    description,
-                    duration,
-                    playUrl,
-                    category,
-                    blurred,
-                    collect,
-                    share,
-                    reply,
-                    System.currentTimeMillis()
-                )
-                VideoDetailActivity.startAction(mActivity, videoBean)
+        mRvHotResult.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                recyclerView?.let {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        var layoutManager: LinearLayoutManager =
+                            it.layoutManager as LinearLayoutManager
+                        var itemCount = it.adapter.itemCount-1
+                        if (layoutManager.findLastVisibleItemPosition() == itemCount) {
+                            // 加载更多数据
+                            mPresenter.getSearchMoreData()
+                        }
+                    }
+                }
             }
-        }
+        })
     }
 
     override fun initData() {
         mPresenter?.getHotWord()
         setUpEnterAnimation()
         initAnimation()
+    }
+
+    private fun jumpToActivity(data: HomeBean.IssueListBean.ItemListBean) {
+        VideoDetailActivity.startAction(mActivity, data.coverToVideoBean())
     }
 
     private fun setUpEnterAnimation() {
@@ -241,22 +233,20 @@ class SearchActivity : BaseActivity<ISearchView, SearchPresenter>(), ISearchView
     }
 
     override fun getSearchByKeySuc(result: HomeBean.IssueListBean) {
-        result?.let {
-            SoftKeyboadUtils.closeSoftKeyboard(this, mEtSearch)
+        SoftKeyboadUtils.closeSoftKeyboard(this, mEtSearch)
 
-            mTvHint.visibility = View.INVISIBLE
-            mRvHotSearch.visibility = View.GONE
-            mRvHotResult.visibility = View.VISIBLE
+        mTvHint.visibility = View.INVISIBLE
+        mRvHotSearch.visibility = View.GONE
+        mRvHotResult.visibility = View.VISIBLE
 
-            var temp = mutableListOf<HomeBean.IssueListBean.ItemListBean>()
-            it?.itemList?.forEach {
-                temp.add(it)
-                it.data?.category
-            }
-
-            mHotResultAdapter.setDataList(temp)
-            TextUtils.setText(mTvHotSearch, "-「$mKeyWord」搜索结果共${result.total}个-")
+        var temp = mutableListOf<HomeBean.IssueListBean.ItemListBean>()
+        result.itemList?.forEach {
+            temp.add(it)
+            it.data?.category
         }
+
+        mHotResultAdapter.setDataList(temp)
+        TextUtils.setText(mTvHotSearch, "-「$mKeyWord」搜索结果共${result.total}个-")
     }
 
     override fun getSearchByKeyFail(code: Int, msg: String) {

@@ -21,11 +21,9 @@ class CategoryAdapter(
 ) : BaseClickAdapter<CategoryBean, CategoryAdapter.FoundViewHolder>(ctx, data, rvView) {
 
     fun setData(dataList: MutableList<CategoryBean>) {
-        if (null != dataList) {
-            mList.clear()
-            mList.addAll(dataList)
-            notifyDataSetChanged()
-        }
+        mList.clear()
+        mList.addAll(dataList)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoundViewHolder {

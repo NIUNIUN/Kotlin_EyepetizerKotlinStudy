@@ -1,11 +1,12 @@
 package com.qinglianyun.base.utils
 
 import android.util.Log
+import java.io.Serializable
 
 /**
  * Created by tang_xqing on 2019/12/13.
  */
-class LogUtils {
+class LogUtils :Serializable {
     companion object {
         var TAG = LogUtils::class.java.simpleName
         var debugFlag = true
@@ -14,6 +15,7 @@ class LogUtils {
             if (debugFlag) Log.e(tag, msg)
         }
 
+        @JvmStatic
         fun d(msg: String, tag: String = TAG) {
             if (debugFlag) Log.d(tag, msg)
         }

@@ -1,6 +1,7 @@
 package com.qinglianyun.eyepetizerkotlinstudy
 
 import android.app.Application
+import android.arch.lifecycle.ProcessLifecycleOwner
 import android.support.multidex.MultiDex
 import com.qinglianyun.base.utils.Utils
 
@@ -14,6 +15,9 @@ class MyApplication : Application() {
         mContext = this
         Utils.initContext(this)
         MultiDex.install(this)
+
+        // ProcessLifecycleOwner感知整个应用生命周期
+        ProcessLifecycleOwner.get().lifecycle.addObserver(ObserverClass(ProcessLifecycleOwner.get().lifecycle))
     }
 
     companion object {

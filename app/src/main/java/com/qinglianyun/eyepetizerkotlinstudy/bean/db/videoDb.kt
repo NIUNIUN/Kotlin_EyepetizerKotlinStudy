@@ -1,5 +1,6 @@
 package com.qinglianyun.eyepetizerkotlinstudy.bean.db
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.*
 import android.arch.persistence.room.migration.Migration
@@ -44,7 +45,7 @@ interface VideoDao {
  * 用于升级数据库。
  * 内部编写sql语句
  */
-private class MIGRATION1_2 : Migration(1,2){
+private class MIGRATION1_2 : Migration(1, 2) {
     override fun migrate(database: SupportSQLiteDatabase) {
 //        database.query()
     }

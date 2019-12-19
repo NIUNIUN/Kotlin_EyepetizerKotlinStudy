@@ -1,6 +1,5 @@
 package com.qinglianyun.eyepetizerkotlinstudy.adapter
 
-import android.arch.lifecycle.Observer
 import android.arch.paging.*
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
@@ -9,11 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.qinglianyun.base.utils.GlideUtils
 import com.qinglianyun.base.utils.TextUtils
-import com.qinglianyun.eyepetizerkotlinstudy.MainActivity
-import com.qinglianyun.eyepetizerkotlinstudy.MyApplication
+import com.qinglianyun.base.utils.Utils
 import com.qinglianyun.eyepetizerkotlinstudy.R
-import com.qinglianyun.eyepetizerkotlinstudy.viewmodels.HomeViewModel
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HomeBean
 
 /**
@@ -24,13 +22,20 @@ class HomePagedAdapter(difCallback: DiffUtil.ItemCallback<HomeBean.IssueListBean
         difCallback
     ) {
 
+
+    private var onClickListener: ((View, HomeBean.IssueListBean.ItemListBean) -> Unit)? = null
+
+    fun setOnClickListener(listener: (View, HomeBean.IssueListBean.ItemListBean) -> Unit) {
+        onClickListener = listener
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): HomePagedAdapter.HomeViewHolder {
+    ): HomeViewHolder {
         var view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_home_layout, parent, false)
-        return HomePagedAdapter.HomeViewHolder(view)
+        return HomeViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
@@ -51,22 +56,38 @@ class HomePagedAdapter(difCallback: DiffUtil.ItemCallback<HomeBean.IssueListBean
             realSecond = second.toString()
         }
 
-//        GlideUtils.display(mCtx, dataBean?.cover?.feed as String, holder.mIvPhoto)
-//        GlideUtils.displayCircle(mCtx, dataBean?.author?.icon as String, holder.mIvImg)
+        GlideUtils.display(
+            Utils.getContext(),
+            dataBean?.cover?.feed as String,
+            holder.mIvPhoto
+        )
+        GlideUtils.displayCircle(
+            Utils.getContext(),
+            dataBean?.author?.icon as String,
+            holder.mIvAvatar,
+            R.mipmap.default_avatar,
+            R.mipmap.default_avatar
+        )
         TextUtils.setText(holder.mTvTitle, dataBean?.title ?: "--")
         TextUtils.setText(holder.mTvTime, "发布于 $category / $realMinute:$realSecond")
+
+        holder.mIvPhoto.setOnClickListener {
+            onClickListener?.let {
+                it.invoke(holder.mIvAvatar, getItem(position)!!)
+            }
+        }
     }
 
     class HomeViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         lateinit var mIvPhoto: ImageView
-        lateinit var mIvImg: ImageView
+        lateinit var mIvAvatar: ImageView
         lateinit var mTvTitle: TextView
         lateinit var mTvTime: TextView
 
         init {
             itemView?.run {
                 mIvPhoto = findViewById(R.id.item_iv_photo)
-                mIvImg = findViewById(R.id.item_iv_avatar)
+                mIvAvatar = findViewById(R.id.item_iv_avatar)
                 mTvTime = findViewById(R.id.item_tv_time)
                 mTvTitle = findViewById(R.id.item_tv_title)
             }
@@ -74,7 +95,7 @@ class HomePagedAdapter(difCallback: DiffUtil.ItemCallback<HomeBean.IssueListBean
     }
 
     companion object {
-        public val difCallback = object :
+        val difCallback = object :
             DiffUtil.ItemCallback<HomeBean.IssueListBean.ItemListBean>() {
             override fun areItemsTheSame(
                 oldItem: HomeBean.IssueListBean.ItemListBean?,
@@ -87,16 +108,4 @@ class HomePagedAdapter(difCallback: DiffUtil.ItemCallback<HomeBean.IssueListBean
             ): Boolean = oldItem == newItem
         }
     }
-}
-
-fun getList() {
-    var activity = MainActivity()
-    var adapter: HomePagedAdapter = HomePagedAdapter(HomePagedAdapter.difCallback)
-    var viewmodel = HomeViewModel(MyApplication())
-    viewmodel.getPagedListBuilder()
-        .observe(activity, object : Observer<PagedList<HomeBean.IssueListBean.ItemListBean>> {
-            override fun onChanged(t: PagedList<HomeBean.IssueListBean.ItemListBean>?) {
-                adapter.submitList(t)
-            }
-        })
 }

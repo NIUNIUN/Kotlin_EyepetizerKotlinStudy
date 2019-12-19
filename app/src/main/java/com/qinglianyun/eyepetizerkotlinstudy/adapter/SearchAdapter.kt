@@ -31,18 +31,12 @@ class SearchAdapter(
     }
 
     fun setDataList(dataList: ArrayList<String>) {
-        dataList?.let {
-            mList.clear()
-            mList.addAll(it.toMutableList())
-            notifyDataSetChanged()
-        }
+        mList.clear()
+        mList.addAll(dataList.toMutableList())
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
-//        var dataBean = mList.getPagedListBuilder(position).data
-//        dataBean?.run {
-//            TextUtils.setText(holder.tvTitle, title as String)
-//        }
         TextUtils.setText(holder.tvTitle, mList.get(position))
     }
 

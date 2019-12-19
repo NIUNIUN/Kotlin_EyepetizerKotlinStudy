@@ -44,7 +44,10 @@ class CategoryModel : BaseModel() {
 
     }
 
-
+    fun getCategoryDataMore(url: String, callListener: ICallback<HomeBean.IssueListBean>) {
+        mApiString.getCategoryDataMore(url)
+            .enqueue(BaseCallback(callListener))
+    }
 }
 
 class FollowModel : BaseModel() {
@@ -82,6 +85,11 @@ class SearchModel : BaseModel() {
         mApiString.getHotWord()
             .enqueue(BaseCallback(callListener))
     }
+
+    fun getMoreSearchData(url:String,callListener: ICallback<HomeBean.IssueListBean>){
+        mApiString.getCategoryDataMore(url)
+            .enqueue(BaseCallback(callListener))
+    }
 }
 
 class DownloadModel : BaseModel() {
@@ -96,6 +104,7 @@ class DownloadModel : BaseModel() {
             .setListener(object : RetrofitManager.ProgressListener {
                 override fun onProgress(progress: Long, totalLen: Long, finish: Boolean) {
                     if (!finish) {
+                        // 子线程
                         downloadListener.onProgress(progress, totalLen)
                     }
                 }

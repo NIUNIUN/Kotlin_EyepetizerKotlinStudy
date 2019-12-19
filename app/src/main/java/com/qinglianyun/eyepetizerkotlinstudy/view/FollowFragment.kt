@@ -2,7 +2,7 @@ package com.qinglianyun.eyepetizerkotlinstudy.view
 
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.arch.paging.PagedList
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -17,7 +17,7 @@ import com.qinglianyun.eyepetizerkotlinstudy.presenter.FollowPresenter
 import com.qinglianyun.eyepetizerkotlinstudy.view.i.IFollowView
 import com.qinglianyun.eyepetizerkotlinstudy.viewmodels.FollowViewModel
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HomeBean
-import com.tt.lvruheng.eyepetizer.mvp.model.bean.VideoBean
+import com.tt.lvruheng.eyepetizer.mvp.model.bean.coverToVideoBean
 import kotlinx.android.synthetic.main.fragment_follow.*
 
 /**
@@ -40,10 +40,7 @@ class FollowFragment : BaseFragment<IFollowView, FollowPresenter>(), IFollowView
     }
 
     override fun initViews() {
-        var list: MutableList<HomeBean.IssueListBean.ItemListBean> = mutableListOf()
         RecyclerViewUtils.initVerticalLayoutManager(rv_follow, mActivity)
-        mAdapter = FollowAdapter(mActivity, list, rv_follow)
-
     }
 
     override fun initListeners() {
@@ -52,15 +49,18 @@ class FollowFragment : BaseFragment<IFollowView, FollowPresenter>(), IFollowView
 
     override fun initData() {
         // 两种方式加载更多数据
-        initCustom()   // 方式一
+//        initCustom()   // 方式一
 
-//        initPaging()    // 方式二
+        initPaging()    // 方式二
     }
 
     /**
      * 通过判断RecycleView是否滑动到最后一个item，来加载更多的数据
      */
     fun initCustom() {
+        var list: MutableList<HomeBean.IssueListBean.ItemListBean> = mutableListOf()
+        mAdapter = FollowAdapter(mActivity, list, rv_follow)
+
         rv_follow.adapter = mAdapter
 
         rv_follow.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -82,6 +82,9 @@ class FollowFragment : BaseFragment<IFollowView, FollowPresenter>(), IFollowView
             }
         })
 
+        mAdapter.setListenerFollow { ToastUtils.showShortInfo("关注 position = $it") }
+        mAdapter.setListenerJump { view, itemListBean -> jumpToVideo(view, itemListBean) }
+
         mPresenter?.getFollowData()
     }
 
@@ -90,54 +93,25 @@ class FollowFragment : BaseFragment<IFollowView, FollowPresenter>(), IFollowView
      */
     fun initPaging() {
         // 使用第三方库Paging加载更多数据
-        mViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(mActivity.application)
-            .create(FollowViewModel::class.java)
         mMAdapter = FollowPagingAdapter(FollowPagingAdapter.diffCallback)
         rv_follow.adapter = mMAdapter
 
-        mMAdapter.setFollowClickListener(object : FollowPagingAdapter.OnFollowClickListener {
-            override fun onClickFollow(view: View, data: HomeBean.IssueListBean.ItemListBean) {
-                ToastUtils.showShortInfo("关注")
-            }
-
-            override fun onClickChild(view: View, data: HomeBean.IssueListBean.ItemListBean) {
-                jumpToVideo(view, data)
-            }
-        })
-
+        mViewModel = ViewModelProviders.of(this).get(FollowViewModel::class.java)
         mViewModel.getLivePageList()
             .observe(this, object : Observer<PagedList<HomeBean.IssueListBean.ItemListBean>> {
                 override fun onChanged(t: PagedList<HomeBean.IssueListBean.ItemListBean>?) {
                     mMAdapter.submitList(t)
                 }
             })
+
+        mMAdapter.setChildListener { view, itemListBean -> jumpToVideo(view, itemListBean) }
+
+        mMAdapter.setFollowListener { view, itemListBean -> ToastUtils.showShortInfo("关注 ") }
     }
 
     fun jumpToVideo(view: View, data: HomeBean.IssueListBean.ItemListBean) {
-        // 转换成VideoBean
-        data.data?.run {
-            var feed = cover?.feed as String
-            var blurred = cover?.blurred
-            var shared = consumption?.shareCount
-            var reply = consumption?.replyCount
-            var collect = consumption?.collectionCount
-            var videoBean: VideoBean = VideoBean(
-                feed,
-                title,
-                description,
-                duration,
-                playUrl,
-                category,
-                blurred,
-                collect,
-                shared,
-                reply,
-                System.currentTimeMillis()
-            )
-            VideoDetailActivity.startAction(mActivity, videoBean, view)
-        }
+        VideoDetailActivity.startAction(mActivity, data.coverToVideoBean(), view)
     }
-
 
     override fun getFollowDataSuc(result: HomeBean.IssueListBean) {
         result.itemList?.let {

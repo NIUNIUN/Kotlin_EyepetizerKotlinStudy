@@ -12,7 +12,7 @@ import com.qinglianyun.eyepetizerkotlinstudy.adapter.RankAdapter
 import com.qinglianyun.eyepetizerkotlinstudy.presenter.RankPresenter
 import com.qinglianyun.eyepetizerkotlinstudy.view.i.IRankView
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.HotBean
-import com.tt.lvruheng.eyepetizer.mvp.model.bean.VideoBean
+import com.tt.lvruheng.eyepetizer.mvp.model.bean.coverToVideoBean
 import kotlinx.android.synthetic.main.fragment_hot_rank.*
 
 
@@ -61,7 +61,7 @@ class HotWeekFragment : BaseFragment<IRankView, RankPresenter>(), IRankView {
                 data: HotBean.ItemListBean.DataBean,
                 position: Int
             ) {
-                jumpToActivty(view,data)
+                jumpToActivty(view, data)
             }
         })
     }
@@ -89,35 +89,8 @@ class HotWeekFragment : BaseFragment<IRankView, RankPresenter>(), IRankView {
     }
 
 
-    private fun jumpToActivty(view: View,data: HotBean.ItemListBean.DataBean) {
-        data?.run {
-            var photo = cover?.feed
-            var desc = description
-            var playUrl = playUrl
-            var title1 = title
-            var category = type
-            var duration = duration
-            var collect = consumption?.collectionCount
-            var reply = consumption?.replyCount
-            var share = consumption?.shareCount
-            var time = System.currentTimeMillis()
-            var blurred = cover?.blurred
-            var videoBean = VideoBean(
-                photo,
-                title1,
-                desc,
-                duration,
-                playUrl,
-                category,
-                blurred,
-                collect,
-                share,
-                reply,
-                time
-            )
-//            VideoDetailActivity.startAction(mActivity, videoBean)
-            VideoDetailActivity.startAction(mActivity, videoBean,view)
-        }
+    private fun jumpToActivty(view: View, data: HotBean.ItemListBean.DataBean) {
+        VideoDetailActivity.startAction(mActivity, data.coverToVideoBean(), view)
     }
 
     companion object {

@@ -38,7 +38,7 @@ class MainActivity : BaseActivity<IMainView, MainPresenter>(), IMainView {
 
     override fun initViews() {
         checkPermission()
-
+//        TempJava().gett(this)
         mBnvMain = findViewById(R.id.bnv_main)
         mTvTitle = findViewById(R.id.tv_main_title)
         mIvSearch = findViewById(R.id.iv_main_search)

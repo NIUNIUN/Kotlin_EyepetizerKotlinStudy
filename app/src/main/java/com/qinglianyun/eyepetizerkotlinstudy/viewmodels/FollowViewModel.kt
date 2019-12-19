@@ -30,7 +30,7 @@ class FollowViewModel(application: Application) : AndroidViewModel(application) 
     fun getPageListConfig(): PagedList.Config {
         var builder = PagedList.Config.Builder()
         builder.setEnablePlaceholders(false)  // 占位符
-            .setPageSize(10)  // 每页加载的个数
+            .setPageSize(10)  // 每页加载的个数。必须设置
             .setInitialLoadSizeHint(10)  // 初始化加载的个数
             .setPrefetchDistance(4)  //距离底部多少条数据，加载下一页数据
 

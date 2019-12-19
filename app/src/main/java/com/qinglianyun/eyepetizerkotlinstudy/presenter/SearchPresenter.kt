@@ -15,9 +15,12 @@ class SearchPresenter(view: ISearchView) : BasePresenter<ISearchView>(view) {
         SearchModel()
     }
 
+    private var mNextUrl: String? = null
+
     fun getSearchDataByKey(query: String) {
         mModel.getSearchDataByKey(query, object : ICallback<HomeBean.IssueListBean> {
             override fun onSuccess(result: HomeBean.IssueListBean) {
+                mNextUrl = result.nextPageUrl
                 baseView?.getSearchByKeySuc(result)
             }
 
@@ -25,6 +28,21 @@ class SearchPresenter(view: ISearchView) : BasePresenter<ISearchView>(view) {
                 baseView?.getSearchByKeyFail(error.code, error.message)
             }
         })
+    }
+
+    fun getSearchMoreData() {
+        mNextUrl?.let {
+            mModel.getMoreSearchData(it, object : ICallback<HomeBean.IssueListBean> {
+                override fun onSuccess(result: HomeBean.IssueListBean) {
+                    mNextUrl = result.nextPageUrl
+                    baseView?.getSearchByKeySuc(result)
+                }
+
+                override fun onError(error: ErrorMessage) {
+                    baseView?.getSearchByKeyFail(error.code, error.message)
+                }
+            })
+        }
     }
 
     fun getHotWord() {
@@ -37,9 +55,5 @@ class SearchPresenter(view: ISearchView) : BasePresenter<ISearchView>(view) {
                 baseView?.getHotWorldFail(error.code, error.message)
             }
         })
-    }
-
-    fun requestHotWorld(){
-
     }
 }

@@ -58,6 +58,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':base')
+
+    // 协程
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'
+
     /**
      * 当前库
      * implementation：只能在当前module使用，不能被依赖当前module的module使用
@@ -79,6 +83,7 @@ dependencies {
 //    implementation 'com.shuyu:gsyVideoPlayer-x64:6.0.3'  //（可丢弃，调试可以留着，正是打包去除）
 //    implementation 'com.shuyu:gsyVideoPlayer-x86:6.0.3' //（可丢弃）
 
+    // Room库
     def dependencie = rootProject.ext.dependencies
     implementation dependencie.room_runtime
     kapt dependencie.room_compile
@@ -86,10 +91,21 @@ dependencies {
     testImplementation dependencie.room_test_hepler
     implementation dependencie.room_rxjava2
 
-
+    // Paging库
     implementation dependencie.paging_runtime
     testImplementation dependencie.paging_common
     implementation dependencie.paging_rxjava2
 
+    // Lifecycle库
     implementation dependencie.lifecycle_extension
+
+    // WorkManager库
+    def work_version = "1.0.0"
+    // Kotlin + coroutines
+    implementation "android.arch.work:work-runtime-ktx:$work_version"
+    // optional - RxJava2 support
+    implementation "android.arch.work:work-rxjava2:$work_version"
+    // optional - Test helpers
+    androidTestImplementation "android.arch.work:work-testing:$work_version"
+
 }

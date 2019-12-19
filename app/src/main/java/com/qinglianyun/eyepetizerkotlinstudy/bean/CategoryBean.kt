@@ -8,7 +8,7 @@ data class CategoryBean(var id: Int, var name: String?,
                         var bgColor: String?, var headerImage: String?) :Parcelable{
     /**
      * id : 36
-     * name : 生活
+     * delegeName : 生活
      * alias : null
      * description : 匠心、健康、生活感悟
      * bgPicture : http://img.kaiyanapp.com/924ebc6780d59925c8a346a5dafc90bb.jpeg
