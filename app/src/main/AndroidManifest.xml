@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.qinglianyun.eyepetizerkotlinstudy">
+    package="com.txq.eyepetizerkotlinstudy">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name=".MyApplication"
+        android:name="com.txq.eyepetizerkotlinstudy.MyApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -34,9 +34,9 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
-        <service android:name=".services.DownloadService"/>
+        <service android:name="com.txq.eyepetizerkotlinstudy.services.DownloadService"/>
 
-        <activity android:name=".MainActivity">
+        <activity android:name="com.txq.eyepetizerkotlinstudy.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,17 +44,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.VideoDetailActivity"
+            android:name="com.txq.eyepetizerkotlinstudy.view.VideoDetailActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:launchMode="singleTop" />
 
         <activity
-            android:name=".view.SearchActivity"
+            android:name="com.txq.eyepetizerkotlinstudy.view.SearchActivity"
             android:windowSoftInputMode="adjustPan" />
 
-        <activity android:name=".view.CategoryDetailActivity" />
+        <activity android:name="com.txq.eyepetizerkotlinstudy.view.CategoryDetailActivity" />
 
-        <activity android:name=".view.VideoCacheActivity" />
+        <activity android:name="com.txq.eyepetizerkotlinstudy.view.VideoCacheActivity" />
     </application>
 
 </manifest>

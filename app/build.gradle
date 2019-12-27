@@ -9,7 +9,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
-        applicationId "com.qinglianyun.eyepetizerkotlinstudy"
+        applicationId "com.txq.eyepetizerkotlinstudy"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -108,4 +108,14 @@ dependencies {
     // optional - Test helpers
     androidTestImplementation "android.arch.work:work-testing:$work_version"
 
+    /**
+     * Kodein 依赖注入库
+     */
+
+    // 基础组件
+    implementation 'org.kodein.di:kodein-di-generic-jvm:5.2.0'
+// Android扩展组件
+    implementation 'org.kodein.di:kodein-di-framework-android-core:5.2.0'
+// support扩展组件，我的项目中用到了v4包的Fragment，因此我需要它
+    implementation 'org.kodein.di:kodein-di-framework-android-support:5.2.0'
 }
