@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.TextView
 import com.txq.eyepetizerkotlinstudy.R
 import com.tt.lvruheng.eyepetizer.mvp.model.bean.VideoBean
+import kotlinx.coroutines.*
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
@@ -14,6 +15,15 @@ import kotlin.reflect.KProperty
  * Kotlin 什么是幕后字段？
  *     https://juejin.im/post/5b95321ae51d450e6475b7c6#heading-1
  * Created by tang_xqing on 2019/12/2.
+ */
+
+/**
+ * https://www.imooc.com/article/285493
+ * https://kaixue.io/
+ *
+ * 协程：从执行机制上，协程和回调没有什么区别。
+ *     好处：简化代码；更加安全。  可以和Retrofit配合使用。
+ *
  */
 
 /**
@@ -234,95 +244,159 @@ class Delege {
     }
 }
 
-/*
-
- fun corfun(){
-     */
 /**
-      * 可以切换线程环境。newSingleThreadContext("MyThread")--> 启动一个新的线程
-      * DefaultScheduler
-      *//*
+ * 1）async()和launch()的区别
+ *  async() 的执行结果通过，.await()获取
+ *  async():不会阻塞外层代码往下执行。
+ *
+ * 2）withContext() 用于在协程中切换线程。会阻塞外层代码往下执行。
+ *
+ * 3）suspend(): 非阻塞式挂起函数。 将协程从当前线程脱离（挂起），当前线程不需要管协程的代码。
+ *          线程执行到suspend(),暂时不执行剩余的协程代码，继续往下执行；而协程，脱离线程后在特定的线程环境下执行。（例如：在主线中被挂起，子线程中执行剩下的协程代码）
+ *      1、如何自定义suspend()函数？自定义suspend()作用是什么
+ *
+ * 4）CoroutineContext ：
+ *     Dispatchers.Main：主线程(UI线程)
+ *     Dispatchers.IO：子线程(线程池)
+ *     Dispatchers.Default：（线程池）适合CPU密集，例如：计算。是不是可用于数据库存取数据
+ *     Dispatchers.Unconfined (直接执行)
+ *
+ * 5) 非阻塞式挂起：协程在切换线程时挂起。
+ */
+fun createCoroutin() {
+//    runBlocking {
+//        // coroutineScope() 函数，应该运行在挂起函数或协程中。  挂起函数是非阻塞式的。
+//        coroutineScope{
+//           var user =  async { 1 }
+//            var age = async {  }
+////           suspendingMerge(user,age)  // 将两个请求结果可挂起合并
+//            withContext(Dispatchers.IO){
+//
+//            }
+//
+//            launch {
+//
+//            }
+//
+//            user.await()
+//
+//        }
+//    }
+//    corfun()
 
-     var job = GlobalScope.launch(Dispatchers.Default) {
-         // GlobalScope：子线程全局协程作用域   coroutineScope：协程作用域
-         // 启动一个新线程
-         println("协程 输出前 ${Thread.currentThread().name}")
-         delay(1000)   // 非阻塞函数，睡眠1秒。deley：挂起函数，挂起协程。只在协程中使用
-         println("协程 输出后 ${Thread.currentThread().name}")
+    CoroutineStudy().reqestNet()
 
-         var result = async {
-             delay(5000)   // 挂起1秒后，才返回结果
-         }
-         println("拿到结果 输出---1")
-         println("拿到结果 输出 ${result.await()}")   // await是阻塞时，只有执行完成后才往下执行。 用同步的代码执行异步请求。
-         println("拿到结果 输出---2")
-         withContext(coroutineContext){
-             // withContext 不会创建新的协程
-         }
-     }
+    /*CoroutineScope(Dispatchers.IO).launch {
+        println("协程代码-1 ${Thread.currentThread().name}")
+        // 运行在主线程
 
-     thread {
-         // thread：
-         println("线程 输出前 ${Thread.currentThread().name}")
-         Thread.sleep(1000)
-         println("线程 输出后 ${Thread.currentThread().name}")
+        withContext(Dispatchers.IO) {
+            // 运行在子线程。使用async() 不会阻塞外层代码往下执行呢？
+            Thread.sleep(1000)
+            println("协程代码-2 ${Thread.currentThread().name}")
+        }
 
-         runBlocking {
-             // runBlocking：用于桥接阻塞与非阻塞的桥梁。运行在当前线程
-             println("运行阻塞 输出前 ${Thread.currentThread().name}")
-             delay(2000)
-             println("运行阻塞 输出后 ${Thread.currentThread().name}")
-         }
-     }
+        async(Dispatchers.IO) {
+            // 运行在子线程。使用withContext() 会阻塞外层的代码不往下执行。为什么？
+            Thread.sleep(1000)
+            println("协程代码-3 ${Thread.currentThread().name}")
+        }
+
+        println("协程代码-4 ${Thread.currentThread().name}")
+    }*/
+}
 
 
-     runBlocking {
-         // runBlocking：用于桥接阻塞与非阻塞的桥梁。运行在当前线程，常规函数
-         println("运行阻塞 输出前 ${Thread.currentThread().name}")
-         delay(2000)
-         println("运行阻塞 输出后 ${Thread.currentThread().name}")
+fun corfun() {
 
-         launch {
-             // 新的协程
-             delay(1000)
-             println("运行阻塞-2 输出后 ${Thread.currentThread().name}")
-         }
+    /**
+     * 可以切换线程环境。newSingleThreadContext("MyThread")--> 启动一个新的线程
+     * DefaultScheduler
+     *
+     * launch()函数：开启一个协程
+     *
+     */
 
-         coroutineScope {
-             // 创建一个协程作用域
-             launch {
-                 // 新的协程
+    var job = GlobalScope.launch(Dispatchers.Default) {
+        // GlobalScope：子线程全局协程作用域   coroutineScope：协程作用域
+        // 启动一个新线程
+        println("协程 输出前 ${Thread.currentThread().name}")
+        delay(1000)   // 非阻塞函数，睡眠1秒。deley：挂起函数，挂起协程。只在协程中使用
+        println("协程 输出后 ${Thread.currentThread().name}")
+
+        var result = async {
+            delay(5000)   // 挂起1秒后，才返回结果
+        }
+        println("拿到结果 输出---1")
+        println("拿到结果 输出 ${result.await()}")   // await是阻塞时，只有执行完成后才往下执行。 用同步的代码执行异步请求。
+        println("拿到结果 输出---2")
+        withContext(coroutineContext) {
+            // withContext 不会创建新的协程
+        }
+    }
+/*
+    thread {
+        // thread：
+        println("线程 输出前 ${Thread.currentThread().name}")
+        Thread.sleep(1000)
+        println("线程 输出后 ${Thread.currentThread().name}")
+
+        runBlocking {
+            // runBlocking：用于桥接阻塞与非阻塞的桥梁。运行在当前线程
+            println("运行阻塞 输出前 ${Thread.currentThread().name}")
+            delay(2000)
+            println("运行阻塞 输出后 ${Thread.currentThread().name}")
+        }
+    }
+
+
+    runBlocking {
+        // runBlocking：用于桥接阻塞与非阻塞的桥梁。运行在当前线程，常规函数
+        println("运行阻塞 输出前 ${Thread.currentThread().name}")
+        delay(2000)
+        println("运行阻塞 输出后 ${Thread.currentThread().name}")
+
+        launch {
+            // 新的协程
+            delay(1000)
+            println("运行阻塞-2 输出后 ${Thread.currentThread().name}")
+        }
+
+        coroutineScope {
+            // 创建一个协程作用域
+            launch {
+                // 新的协程
 //                    delay(500L)
-                 println("coroutineScope 输出前 ${Thread.currentThread().name}")
-             }
+                println("coroutineScope 输出前 ${Thread.currentThread().name}")
+            }
 
 //                delay(100L)
-             println("coroutineScope 输出后 ${Thread.currentThread().name}")
-         }
-     }
+            println("coroutineScope 输出后 ${Thread.currentThread().name}")
+        }
+    }
 
 
-     runBlocking {
-         repeat(5) {
-             // 启动大量的协程。运行在当前线程
+    runBlocking {
+        repeat(5) {
+            // 启动大量的协程。运行在当前线程
 //                    i ->    // i表示协程编号
-             delay(500L)  // 每个协程睡眠1秒，并输出log
-             println("${Thread.currentThread().name}  --> .")
-         }
-     }
- }
-*/
+            delay(500L)  // 每个协程睡眠1秒，并输出log
+            println("${Thread.currentThread().name}  --> .")
+        }
+    }*/
+}
+
 
 /*
 *  泛型：生产者、消费者。
 *  声明型变：in-生产者 、out-消费者
  */
 
-interface CompaintOut<out T>{
-    fun printOut():T
+interface CompaintOut<out T> {
+    fun printOut(): T
 }
 
-fun demoOut(sour: CompaintOut<Any>){
+fun demoOut(sour: CompaintOut<Any>) {
     var ss: CompaintOut<Any> = sour
 //    var yy:CompaintOut<>
 
@@ -334,14 +408,14 @@ fun demoOut(sour: CompaintOut<Any>){
 }
 
 
-interface CompaintIn<in T>{
+interface CompaintIn<in T> {
     // 泛型T只能作为参数输入，不能作为函数返回值
-    fun printIn(result:T)
+    fun printIn(result: T)
 }
 
-fun demoIn(x: CompaintIn<Number>){
+fun demoIn(x: CompaintIn<Number>) {
     var ss: CompaintIn<Double> = x
-    var yy: CompaintIn<Any>?= null
+    var yy: CompaintIn<Any>? = null
     /**
      * 泛型为in T 称为逆变。
      * 情况1、方法参数为父类，接收者为子类，没有问题
@@ -354,27 +428,27 @@ fun demoIn(x: CompaintIn<Number>){
     printList(listOf<String>())
 }
 
-fun printList(data:List<Any>){
+fun printList(data: List<Any>) {
     var ss = listOf<String>()
     ss.filterNot { it.equals("empty") }
     data.forEach { println("型变 List --$it") }
 }
 
-fun printMutList(data:MutableList<Any>){
+fun printMutList(data: MutableList<Any>) {
     data.forEach { println("型变 MutableList --$it") }
 }
 
 fun main() {
-    var strList = listOf<String>("a","b","c")
-    var intList = listOf<Int>(1,2,3,4,5,6)
+    var strList = listOf<String>("a", "b", "c")
+    var intList = listOf<Int>(1, 2, 3, 4, 5, 6)
 
     var dataList = listOf<VideoBean>()
     dataList.get(1).duration = 123
-        var videoBea:VideoBean ?= null
+    var videoBea: VideoBean? = null
     var get = dataList.get(0)
-    get  = videoBea!!
+    get = videoBea!!
 
-    var strMutList = mutableListOf<String>("e","f","g")
+    var strMutList = mutableListOf<String>("e", "f", "g")
 
     printList(strList)
 //    printMutList(strMutList)
@@ -384,10 +458,9 @@ fun main() {
      *
      */
 
-    var ss: CompaintOut<Double>?= null
-    var yy: CompaintOut<Any>?= null
+    var ss: CompaintOut<Double>? = null
+    var yy: CompaintOut<Any>? = null
     /**
      * kotlin中协变与逆变与java中<? super T>，<? extend E> 作用类型
      */
-
 }

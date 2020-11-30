@@ -84,11 +84,10 @@ class MainActivity : BaseActivity<IMainView, MainPresenter>(), IMainView, Kodein
     }
 
     override fun initData() {
+//        createCoroutin()  // 创建协程
+
         mFragmentList = arrayListOf()
-//        mFragmentList.add(HomeFragment.getInstance())
-//        mFragmentList.add(FoundFragment.getInstance())
-//        mFragmentList.add(HotFragment.getInstance())
-//        mFragmentList.add(PersonalFragment.getInstance())
+
         mFragmentList.add(homeFragment)
         mFragmentList.add(foundFragment)
         mFragmentList.add(hotFragment)
